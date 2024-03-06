@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>商品详情</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column justify-content-between min-vh-100">
+
+<th:block th:replace="~{modules/header.html}"></th:block>
+
+<main class="flex-grow-1 mt-5">
+  <div class="container">
+    <div class="row">
+      <!-- 购物详情页 -->
+      <div class="col-12 col-md-6 d-flex justify-content-center flex-column">
+        <img id="mainImage" src="https://via.placeholder.com/300" alt="">
+        <div class="d-flex p-3">
+          <img class="thumbnail thumbnail-active" src="https://via.placeholder.com/300" alt="">
+          <img class="thumbnail" src="https://via.placeholder.com/300/0000FF" alt="">
+          <img class="thumbnail" src="https://via.placeholder.com/300/008000" alt="">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 mt-5">
+        <h3>商品名称</h3>
+        <p>言必信，行必果。先进于礼乐，野人也；后进于礼乐，君子也。如用之，则吾从先进。</p>
+        <p style="background-color: #DFF0D8;">
+          会员价: <span class="text-warning">￥17.00元</span> <br>
+          优惠价: <span class="text-danger">￥22.56元</span><br>
+          原价: <span class="text-muted">￥24.66元</span><br>
+        </p>
+        <p>数量: <label>
+          <input class="col-6 col-md-2 text-center" type="number" value="1">
+          &nbsp
+        </label>
+          件(库存量: <span class="fw-semibold">234</span>件)</p>
+        <p class="fst-italic fs-6 text-muted">-已成交 <span class="fw-semibold">234</span> 件</p>
+
+        <span class="d-flex justify-content-center">
+            <button class="btn btn-primary">加入购物车</button>
+            <button class="btn btn-danger mx-3">立即购买</button></span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<th:block th:replace="~{modules/footer.html}"></th:block>
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script>
+  $(function () {
+    $('.thumbnail').on('click', function () {
+      $('#mainImage').attr('src', $(this).attr('src'));
+      $('.thumbnail').removeClass('thumbnail-active');
+      $(this).addClass('thumbnail-active');
+    });
+  });
+</script>
+
+<style>
+  #mainImage {
+    width: 300px;
+    height: 300px;
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  .thumbnail-active {
+    padding: 2px;
+    border: 1px solid rgb(73, 10, 10);
+    box-shadow: 0 0 5px 1px rgb(73, 10, 10);
+  }
+</style>
+</html>
