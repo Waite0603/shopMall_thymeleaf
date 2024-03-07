@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div class="sidebar col-md-3 d-flex justify-content-center h-100 mt-3">
+  <ul class="nav nav-pills d-flex flex-column border col-12 col-md-8">
+    <li class="nav-item border">
+      <a class="nav-link disabled" href="#">后台管理</a>
+    </li>
+    <li class="nav-item border">
+      <a class="nav-link" href="/manageType">类型管理</a>
+    </li>
+    <li class="nav-item border">
+      <a class="nav-link" href="/manageMerchant">商家管理</a>
+    </li>
+    <li class="nav-item border">
+      <a class="nav-link" href="/manageStore">店铺管理</a>
+    </li>
+  </ul>
+</div>
+<script>
+  const url = window.location.pathname;
+  const navs = document.querySelectorAll('.nav-link');
+  navs.forEach(nav => {
+    if (nav.getAttribute('href') === url) {
+      nav.classList.add('active');
+    }
+  });
+</script>
+</body>
+<style>
+  .sidebar .active {
+    border-radius: 0;
+  }
+</style>
+</html>

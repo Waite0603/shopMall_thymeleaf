@@ -54,4 +54,19 @@ public class ThymeleafController {
   public String centerOrders() {
     return "center/centerOrders";
   }
+
+  @GetMapping("/manageType")
+  public String manageType() {
+    return "manage/manageType";
+  }
+
+  @GetMapping("/manageMerchant")
+  public String manageMerchant() {
+    return "manage/manageMerchant";
+  }
+
+  @GetMapping("/manageStore")
+  public String manageStore() {
+    return "manage/manageStore";
+  }
 }

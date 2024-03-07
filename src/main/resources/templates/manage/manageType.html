@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column justify-content-between min-vh-100">
+
+<th:block th:replace="~{modules/header.html}"></th:block>
+
+<main class="flex-grow-1 mt-3">
+  <div class="container-fluid row">
+    <th:block th:replace="~{modules/manageSibebar.html}"></th:block>
+
+    <div class="content col-md-9">
+      <h3 class="form-title text-center">商品类型管理</h3>
+
+      <div class="type-control d-flex justify-content-between bg-light px-4 py-2 rounded">
+        <div class="type-add">
+          <button class="btn btn-danger" type="submit">新增</button>
+          <button class="btn btn-primary mt-1" type="submit">添加</button>
+        </div>
+        <div class="type-search d-flex">
+          <label>
+            <input class="form-control me-2" type="text" placeholder="搜索">
+          </label>
+          <button class="btn btn-success col-3" type="submit">搜索</button>
+        </div>
+      </div>
+
+      <table class="table table-hover mt-3">
+        <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">内部编码</th>
+          <th scope="col">类型名称</th>
+          <th scope="col">所属分类</th>
+          <th scope="col">0否显示</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th>1</th>
+          <td>001</td>
+          <td>手机</td>
+          <td>数码</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>002</td>
+          <td>电脑</td>
+          <td>数码</td>
+          <td>0</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</main>
+
+<th:block th:replace="~{modules/footer.html}"></th:block>
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+
+</html>
