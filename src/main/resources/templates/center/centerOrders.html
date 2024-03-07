@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>商品详情</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column justify-content-between min-vh-100">
+
+<th:block th:replace="~{modules/header.html}"></th:block>
+
+<main class="flex-grow-1 mt-3">
+  <div class="container-fluid row">
+    <th:block th:replace="~{modules/sidebar.html}"></th:block>
+
+    <div class="content col-md-9">
+      <h3 class="form-title py-2">我的订单</h3>
+      <div class="order-navs">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">全部订单</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">待付款</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">待发货</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">已完成</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="p-5 bg-light mx-3">
+        <h3 class="mb-3" id="order-welcome">您还没有任何订单</h3>
+        <button class="btn btn-primary">去商城</button>
+      </div>
+
+      <!-- 订单信息 -->
+      <div class="order-info mx-3 mt-4">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success d-flex">
+            <div class="col-4">
+              订单编号:
+              <span class="ps-3">15156156156464</span>
+            </div>
+            <div class="col-4">
+              下单时间:
+              <span class="ps-3">2021-09-09 12:34</span>
+            </div>
+            <div class="col-4">
+              订单状态:
+              <span class="ps-3">待付款</span>
+            </div>
+          </li>
+          <li class="list-group-item list-group-item-success d-flex">
+            <div class="col-4">
+              总数量:
+              <span class="ps-3">7件</span>
+            </div>
+            <div class="col-4">
+              会员金额:
+              <span class="ps-3">2000.00元</span>
+            </div>
+            <div class="col-4">
+              实际支付金额:
+              <span class="ps-3">2000.00元</span>
+            </div>
+          </li>
+          <li class="list-group-item list-group-item-success d-flex pb-3">
+            <div class="col-4">
+              收件人:
+              <span class="ps-3">丁语晨</span>
+            </div>
+            <div class="col-4">
+              联系电话:
+              <span class="ps-3">18734497685</span>
+            </div>
+            <div class="col-4">
+              送货地址:
+              <span class="ps-3">四川省南充市嘉陵区世阳镇</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="order-detail mx-3">
+        <table class="table text-center" style="border: #DEF0D8 1px solid">
+          <thead>
+          <tr>
+            <th scope="col">商品</th>
+            <th scope="col">名称</th>
+            <th scope="col">描述</th>
+            <th scope="col">价格</th>
+            <th scope="col">数量</th>
+            <th scope="col">小计</th>
+          </tr>
+          </thead>
+          <tr>
+            <td>
+              <img src="https://via.placeholder.com/100" alt="商品图片" class="order-img">
+            </td>
+            <td>商品1</td>
+            <td>商品1描述</td>
+            <td>￥200.00</td>
+            <td>2</td>
+            <td>￥400.00</td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://via.placeholder.com/100" alt="商品图片" class="order-img">
+            </td>
+            <td>商品1</td>
+            <td>商品1描述</td>
+            <td>￥200.00</td>
+            <td>2</td>
+            <td>￥400.00</td>
+          </tr>
+          <tfoot>
+          <tr>
+            <td colspan="6">
+              <div class="d-flex justify-content-between">
+                <div>
+                </div>
+                <div>
+                  <span class="me-3">
+                    总计: ￥
+                    <span id="total" class="fw-bold">2000.00</span>
+                  </span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+</main>
+
+<th:block th:replace=" ~{modules/footer.html}"></th:block>
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<style>
+  .order-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+  }
+</style>
+
+</html>

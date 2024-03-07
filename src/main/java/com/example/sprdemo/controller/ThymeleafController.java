@@ -1,13 +1,12 @@
 package com.example.sprdemo.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ThymeleafController {
   @GetMapping("/")
-  public String index(Model model) {
+  public String index() {
     return "index";
   }
 
@@ -29,5 +28,30 @@ public class ThymeleafController {
   @GetMapping("/shoppingCart")
   public String shoppingCart() {
     return "shoppingCart";
+  }
+
+  @GetMapping("/centerInfo")
+  public String centerInfo() {
+    return "center/centerInfo";
+  }
+
+  @GetMapping("/centerPassword")
+  public String passwordManagement() {
+    return "center/centerPassword";
+  }
+
+  @GetMapping("/centerAvatar")
+  public String centerAvatar() {
+    return "center/centerAvatar";
+  }
+
+  @GetMapping("/centerAddress")
+  public String centerAddress() {
+    return "center/centerAddress";
+  }
+
+  @GetMapping("/centerOrders")
+  public String centerOrders() {
+    return "center/centerOrders";
   }
 }

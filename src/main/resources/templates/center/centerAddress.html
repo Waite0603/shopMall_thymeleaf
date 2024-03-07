@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>商品详情</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column justify-content-between min-vh-100">
+
+<th:block th:replace="~{modules/header.html}"></th:block>
+
+<main class="flex-grow-1 mt-3">
+  <div class="container-fluid row">
+    <th:block th:replace="~{modules/sidebar.html}"></th:block>
+
+    <div class="content col-md-9 my-3">
+      <div class="form-horizontal col-12 col-md-10" id="register_form">
+        <h3 class="form-title pb-2">你的地址</h3>
+        <div class="alert alert-danger">
+          <span class="me-1">广东省</span>
+          <span class="me-1">深圳市</span>
+          <span class="me-1">南山区</span>
+          <span class="me-1">科技园</span>
+          <span>科技南路1001号</span>
+        </div>
+        <div class="alert alert-danger">
+          <span class="me-1">广东省</span>
+          <span class="me-1">深圳市</span>
+          <span class="me-1">南山区</span>
+          <span class="me-1">科技园</span>
+          <span>科技南路1001号</span>
+          <span class="badge bg-success">默认地址</span>
+        </div>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAddress">添加地址</a>
+      </div>
+
+      <div class="modal" id="addAddress">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+              <h4 class="modal-title">请选择地址</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- 模态框内容 -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-4">
+                  <select class="form-select" id="province" aria-label="Default select example">
+                    <option selected>省份</option>
+                    <option value="1">广东省</option>
+                    <option value="2">湖南省</option>
+                    <option value="3">湖北省</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <select class="form-select" id="city" aria-label="Default select example">
+                    <option selected>城市</option>
+                    <option value="1">深圳市</option>
+                    <option value="2">广州市</option>
+                    <option value="3">东莞市</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <select class="form-select" id="district" aria-label="Default select example">
+                    <option selected>区县</option>
+                    <option value="1">南山区</option>
+                    <option value="2">福田区</option>
+                    <option value="3">罗湖区</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="street"></label><input type="text" class="form-control" id="street"
+                                                     placeholder="请输入街道">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <span class="fw-bold" id="address"></span>
+              </div>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">添加</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<th:block th:replace="~{modules/footer.html}"></th:block>
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script>
+  // 动态更新地址
+  $('#street').change(function () {
+    const province = $('#province option:selected').text();
+    const city = $('#city option:selected').text();
+    const district = $('#district option:selected').text();
+    const street = $('#street').val();
+    $('#address').text(`${province} ${city} ${district} ${street}`);
+  });
+</script>
+</html>

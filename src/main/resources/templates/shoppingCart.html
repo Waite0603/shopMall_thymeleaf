@@ -10,11 +10,162 @@
 <th:block th:replace="~{modules/header.html}"></th:block>
 
 <main class="flex-grow-1 mt-5">
+  <div class="container">
+    <div class="p-5 bg-light mb-3">
+      <h3 class="mb-3" id="good-welcome"></h3>
+      <button class="btn btn-primary">去商城</button>
+    </div>
 
+    <div class="row">
+      <div class="col-12">
+        <h3>购物车</h3>
+        <table class="table text-center">
+          <thead>
+          <tr>
+            <!-- 多选框 -->
+            <th scope="col"></th>
+            <th scope="col">商品</th>
+            <th scope="col">名称</th>
+            <th scope="col">描述</th>
+            <th scope="col">价格</th>
+            <th scope="col">数量</th>
+            <th scope="col">小计</th>
+            <th scope="col">操作</th>
+          </tr>
+          </thead>
+
+          <tbody id="goodsContainer"></tbody>
+
+          <!-- 总计 -->
+          <tfoot>
+          <tr>
+            <td colspan="8">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <label>
+                    <input type="checkbox">
+                  </label>
+                  <span>全选</span>
+                </div>
+                <div>
+                      <span class="me-3">
+                        总计: ￥
+                        <span id="total" class="fw-bold">0.00</span>
+                      </span>
+                  <button class="btn btn-outline-danger">结算</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
 </main>
 
 <th:block th:replace="~{modules/footer.html}"></th:block>
 </body>
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script>
+  // 商品数据
+  const goodsList = [
+    {
+      id: 1,
+      name: '商品1',
+      desc: '商品1描述',
+      price: 22.56,
+      quantity: 1,
+      img: 'https://via.placeholder.com/300'
+    },
+    {
+      id: 2,
+      name: '商品2',
+      desc: '商品2描述',
+      price: 22.40,
+      quantity: 1,
+      img: 'https://via.placeholder.com/300/09f/fff'
+    }
+  ];
+
+  $("#good-welcome")
+    .text(goodsList.length ? `你已经购买了${goodsList.length}件商品` : "你还没有购买任何商品");
+
+  const updateTotal = () => {
+    let total = 0;
+    $(".goods-total").each(function () {
+      total += parseFloat($(this).text());
+    });
+    $("#total").text(total.toFixed(2));
+  };
+
+  $("#goodsContainer").html(goodsList.map(goods => `
+    <tr>
+      <td><input type="checkbox"></td>
+      <td><img src="${goods.img}" alt="" class="good-img"></td>
+      <td>${goods.name}</td>
+      <td>${goods.desc}</td>
+      <td class="price">${goods.price}</td>
+      <td>
+        <button class="btn btn-outline-secondary btn-sm decrement">-</button>
+        <span class="quantity">${goods.quantity}</span>
+        <button class="btn btn-outline-secondary btn-sm increment">+</button>
+      </td>
+      <td class="goods-total">${goods.price * goods.quantity}</td>
+      <td><a class="delete">删除</a></td>
+    </tr>
+  `).join(""))
+
+  updateTotal();
+
+  // Increment quantity
+  $(".increment").click(function () {
+    let quantity = $(this).siblings(".quantity").text();
+    quantity++;
+    $(this).siblings(".quantity").text(quantity);
+
+    let price = $(this).parent().siblings(".price").text();
+    // 保留两位小数
+    let goodTotal = (price * quantity).toFixed(2);
+    $(this).parent().siblings(".goods-total").text(goodTotal);
+
+    updateTotal();
+  });
+
+  // Decrement quantity
+  $(".decrement").click(function () {
+    let quantity = $(this).siblings(".quantity").text();
+    if (quantity > 1) {
+      quantity--;
+      $(this).siblings(".quantity").text(quantity);
+
+      let price = $(this).parent().siblings(".price").text();
+      // 保留两位小数
+      let goodTotal = (price * quantity).toFixed(2);
+      $(this).parent().siblings(".goods-total").text(goodTotal);
+
+      updateTotal();
+    }
+  });
+
+  // Delete goods
+  $(".delete").click(function () {
+    $(this).parents("tr").remove();
+    updateTotal();
+  });
+</script>
+
+<style>
+  .good-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+  }
+
+  .delete {
+    color: red;
+    cursor: pointer;
+  }
+</style>
 </html>
