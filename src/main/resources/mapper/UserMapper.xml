@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sprdemo.mapper.UserMapper">
+    <select id="selectAll" parameterType="com.example.sprdemo.model.User" resultType="com.example.sprdemo.model.User">
+        select *
+        from customer
+        <where>
+            <if test="realname != null and realname != ''">
+                and realname = #{realname}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test=" password!= null and password != ''">
+                and pass = #{password}
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                and imgUrl = #{imgUrl}
+            </if>
+            <if test="intro != null and intro != ''">
+                and intro = #{intro}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="gender != null and gender != ''">
+                and gender = #{gender}
+            </if>
+            <if test="cardID != null and cardID != ''">
+                and cardID = #{cardID}
+            </if>
+            <if test="regTime != null and regTime != ''">
+                and regTime = #{regTime}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
+            <if test="level != null and level != ''">
+                and level = #{level}
+            </if>
+            <if test="addressId != null and addressId != ''">
+                and address_id = #{addressId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.example.sprdemo.model.User">
+        insert into customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="realname != null and realname != ''">
+                realname,
+            </if>
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test=" password!= null and password != ''">
+                pass,
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                imgUrl,
+            </if>
+            <if test="intro != null and intro != ''">
+                intro,
+            </if>
+            <if test="tel != null and tel != ''">
+                tel,
+            </if>
+            <if test="email != null and email != ''">
+                email,
+            </if>
+            <if test="gender != null and gender != ''">
+                gender,
+            </if>
+            <if test="cardID != null and cardID != ''">
+                cardID,
+            </if>
+            <if test="regTime != null and regTime != ''">
+                regTime,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="level != null and level != ''">
+                level,
+            </if>
+            <if test="addressId != null and addressId != ''">
+                address_id,
+            </if>
+        </trim>
+        <trim prefix="value(" suffix=")" suffixOverrides=",">
+            <if test="realname != null and realname != ''">
+                #{realname},
+            </if>
+            <if test="username != null and username != ''">
+                #{username},
+            </if>
+            <if test=" password!= null and password != ''">
+                #{password},
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                #{imgUrl},
+            </if>
+            <if test="intro != null and intro != ''">
+                #{intro},
+            </if>
+            <if test="tel != null and tel != ''">
+                #{tel},
+            </if>
+            <if test="email != null and email != ''">
+                #{email},
+            </if>
+            <if test="gender != null and gender != ''">
+                #{gender},
+            </if>
+            <if test="cardID != null and cardID != ''">
+                #{cardID},
+            </if>
+            <if test="regTime != null and regTime != ''">
+                #{regTime},
+            </if>
+            <if test="state != null and state != ''">
+                #{state},
+            </if>
+            <if test="level != null and level != ''">
+                #{level},
+            </if>
+            <if test="addressId != null and addressId != ''">
+                #{addressId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.example.sprdemo.model.User">
+        update customer
+        <set>
+            <if test="realname != null and realname != ''">
+                realname = #{realname},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test=" password!= null and password != ''">
+                pass = #{password},
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                imgUrl = #{imgUrl},
+            </if>
+            <if test="intro != null and intro != ''">
+                intro = #{intro},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="cardID != null and cardID != ''">
+                cardID = #{cardID},
+            </if>
+            <if test="regTime != null and regTime != ''">
+                regTime = #{regTime},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="level != null and level != ''">
+                level = #{level},
+            </if>
+            <if test="addressId != null and addressId != ''">
+                address_id = #{addressId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
