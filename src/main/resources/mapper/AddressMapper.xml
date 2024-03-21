@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sprdemo.mapper.AddressMapper">
+
+    <resultMap id="addressResultMap" type="com.example.sprdemo.model.Address">
+        <result column="province_id" property="provinceId"/>
+        <result column="city_id" property="cityId"/>
+        <result column="region_id" property="regionId"/>
+        <result column="detail" property="detail"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.sprdemo.model.Address">
+        insert into address (province_id, city_id, region_id, detail)
+        values (#{provinceId}, #{cityId}, #{regionId}, #{detail})
+    </insert>
+
+
+    <select id="selectAll" parameterType="com.example.sprdemo.model.Address" resultMap="addressResultMap">
+        select * from address
+        <where>
+            <if test="provinceId != null and provinceId != ''">
+                and province_id = #{provinceId}
+            </if>
+            <if test="cityId != null and cityId != ''">
+                and city_id = #{cityId}
+            </if>
+            <if test="regionId != null and regionId != ''">
+                and region_id = #{regionId}
+            </if>
+            <if test="detail != null and detail != ''">
+                and detail = #{detail}
+            </if>
+        </where>
+    </select>
+</mapper>
