@@ -3,7 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sprdemo.mapper.UserMapper">
-    <select id="selectAll" parameterType="com.example.sprdemo.model.User" resultType="com.example.sprdemo.model.User">
+
+
+
+    <resultMap id="UserResultMap" type="com.example.sprdemo.model.User">
+        <result column="realname" property="realname"/>
+        <result column="username" property="username"/>
+        <result column="pass" property="password"/>
+        <result column="username" property="username"/>
+        <result column="imgUrl" property="imgUrl"/>
+        <result column="intro" property="intro"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <result column="pass" property="password"/>
+        <result column="imgUrl" property="imgUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="cardID" property="cardID"/>
+        <result column="intro" property="intro"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <result column="regTime" property="regTime"/>
+        <result column="state" property="state"/>
+        <result column="level" property="level"/>
+        <result column="address_id" property="addressId"/>
+    </resultMap>
+    
+    <select id="selectAll" parameterType="com.example.sprdemo.model.User" resultMap="UserResultMap">
         select *
         from customer
         <where>
