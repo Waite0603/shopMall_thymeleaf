@@ -1,28 +1,29 @@
 package com.example.sprdemo.controller;
 
+import com.example.sprdemo.model.Result;
 import com.example.sprdemo.model.User;
+import com.example.sprdemo.service.UserService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/user")
 public class UserController {
-  @RequestMapping("/login")
-  public String login(User user, HttpServletRequest request) {
-    request.getSession().setAttribute("user", user);
-    // 输出
-    System.out.println("user: " + user);
-    System.out.println("user.getUsername(): " + user.getUsername());
+  @Resource
+  private UserService userService;
 
-    // 密码校验
-    if (user.getUsername().equals("admin") && user.getPassword().equals("admin")) {
-      return "redirect:/";
+  @RequestMapping("/login")
+  public ResponseEntity<Result> login(@RequestBody User user, HttpServletRequest request) {
+    if (user.getUsername() == null || user.getPassword() == null) {
+      return ResponseEntity.ok(Result.error("403", "用户名或密码不能为空"));
     }
-    else {
-      // 弹出提示
-      return "redirect:/login";
-    }
+    Result result = userService.login(user, request);
+    return ResponseEntity.ok(result);
   }
 
   @RequestMapping("/logout")
@@ -30,4 +31,22 @@ public class UserController {
     request.getSession().removeAttribute("user");
     return "redirect:/";
   }
+
+  @PostMapping("/register")
+  public ResponseEntity<Result> register(@RequestBody User user) {
+    if (user.getUsername() == null || user.getPassword() == null || user.getTel() == null) {
+      return ResponseEntity.ok(Result.error("403", "用户名、密码、手机号不能为空"));
+    }
+    Result result = userService.register(user);
+    return ResponseEntity.ok(result);
+  }
+  @PostMapping("/update")
+  public ResponseEntity<Result> update(@RequestBody User user , HttpServletRequest request){
+    if (user.getId() == 0) {
+      return ResponseEntity.ok(Result.error("403", "用户ID不能为空"));
+    }
+    Result result = userService.update(user, request);
+    return ResponseEntity.ok(result);
+  }
+
 }

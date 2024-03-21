@@ -36,16 +36,6 @@ public class UserService {
   }
 
 
-  public User login(User user) {
-    User paramuser = new User();
-    paramuser.setUsername(user.getUsername());
-    paramuser.setPassword(user.getPassword());
-    List<User> users = selectAll(paramuser);
-    if (users.size() > 0) {
-      return users.get(0);
-    }
-    return null;
-  }
 
   public List<User> selectAll(User user) {
     return userMapper.selectAll(user);
