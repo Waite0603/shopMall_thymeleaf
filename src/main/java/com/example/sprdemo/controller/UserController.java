@@ -18,11 +18,11 @@ public class UserController {
   private UserService userService;
 
   @RequestMapping("/login")
-  public ResponseEntity<Result> login(@RequestBody User user, HttpServletRequest request) {
+  public ResponseEntity<Result> login(@RequestBody User user) {
     if (user.getUsername() == null || user.getPassword() == null) {
       return ResponseEntity.ok(Result.error("403", "用户名或密码不能为空"));
     }
-    Result result = userService.login(user, request);
+    Result result = userService.login(user);
     return ResponseEntity.ok(result);
   }
 
@@ -41,11 +41,8 @@ public class UserController {
     return ResponseEntity.ok(result);
   }
   @PostMapping("/update")
-  public ResponseEntity<Result> update(@RequestBody User user , HttpServletRequest request){
-    if (user.getId() == 0) {
-      return ResponseEntity.ok(Result.error("403", "用户ID不能为空"));
-    }
-    Result result = userService.update(user, request);
+  public ResponseEntity<Result> update(@RequestBody User user){
+    Result result = userService.update(user);
     return ResponseEntity.ok(result);
   }
 

@@ -8,5 +8,6 @@ public class Address {
   private int provinceId;
   private int cityId;
   private int regionId;
+  private int customerId;
   private String detail;
 }

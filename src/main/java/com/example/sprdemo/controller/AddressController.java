@@ -5,7 +5,12 @@ import com.example.sprdemo.model.Result;
 import com.example.sprdemo.service.AddressService;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 @RequestMapping("/address")
@@ -33,11 +38,12 @@ public class AddressController {
         return "update";
     }
 
-    @GetMapping("/selectAll")
+    @RequestMapping("/selectAll")
     public ResponseEntity<Result> selectAll() {
         Result result = addressService.selectAll();
         return ResponseEntity.ok(result);
     }
+
 
 
 }

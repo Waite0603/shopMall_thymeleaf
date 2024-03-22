@@ -21,4 +21,5 @@ public class User {
   private String state;
   private String level ;
   private int addressId;
+  private String Authorization;
 }

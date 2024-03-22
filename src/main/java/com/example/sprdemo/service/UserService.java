@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.example.sprdemo.mapper.UserMapper;
 import com.example.sprdemo.model.Result;
 import com.example.sprdemo.model.User;
+import com.example.sprdemo.util.TokenUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class UserService {
     User paramUser = new User();
     paramUser.setUsername(username);
     List<User> users = userMapper.selectAll(paramUser);
-    if (!users.isEmpty()) {
+    if (users.size() > 0) {
       return users.get(0);
     }
     return null;
@@ -29,7 +30,7 @@ public class UserService {
     User paramUser = new User();
     paramUser.setTel(tel);
     List<User> users = userMapper.selectAll(paramUser);
-    if (!users.isEmpty()) {
+    if (users.size() > 0) {
       return users.get(0);
     }
     return null;
@@ -69,15 +70,20 @@ public class UserService {
 
   }
 
-  public Result update(User user, HttpServletRequest request) {
-    User SessionUser = (User) request.getSession().getAttribute("user");
-    if (SessionUser == null) {
+  public Result update(User user) {
+    User currentUser = TokenUtils.getCurrentUser();
+    if (currentUser == null) {
       return Result.error("403", "用户未登录");
     }
-    if (user.getId() != SessionUser.getId()) {
-      return Result.error("403", "不允许更改其它用户的信息");
+    if (this.selectByUsername(user.getUsername()) != null) {
+      return Result.error("403", "用户名已存在");
     }
+    if (this.selectByTel(user.getTel()) != null) {
+      return Result.error("403", "手机号已存在");
+    }
+    user.setId(currentUser.getId());
     int update = userMapper.update(user);
+
     if (update == 0) {
       return Result.error("500", "更新失败");
     }
@@ -85,10 +91,11 @@ public class UserService {
   }
 
 
-  public Result login(User user, HttpServletRequest request) {
+  public Result login(User user) {
     List<User> users = userMapper.selectAll(user);
-    if (!users.isEmpty()) {
-      request.getSession().setAttribute("user", users.get(0));
+    if (users.size() > 0) {
+      String token = TokenUtils.createToken(users.get(0).getId() + "");
+      users.get(0).setAuthorization(token);
       return Result.success(users.get(0));
     } else {
       return Result.error("403", "用户名或密码错误");

@@ -8,5 +8,5 @@ public interface AddressMapper {
 
   void insert(Address address);
 
-  List<Address> selectAll();
+  List<Address> selectAll(Address address);
 }
