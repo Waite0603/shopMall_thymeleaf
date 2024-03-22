@@ -46,15 +46,15 @@
           <label for="phone" class="form-label col-sm-2">手机</label>
           <div class="col-sm-10">
             <div class="input-group">
-              <input type="text" class="form-control" id="phone" placeholder="请输入验证码" required>
-              <button class="btn btn-outline-secondary" type="button">获取验证码</button>
+              <input type="text" class="form-control" id="phone" placeholder="请输入手机号码" required>
+              <button class="btn btn-outline-secondary" type="button" onclick="getVerificationCode()" id="code-text">获取验证码</button>
             </div>
           </div>
         </div>
         <div class="form-group row mt-2 d-flex align-items-center">
           <label for="verification" class="form-label col-sm-2">验证码</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="verification" placeholder="请输入验证码" required>
+            <input type="text" class="form-control" id="verification" placeholder="验证码为1234" required>
             <div class="invalid-feedback">
               请输入验证码
             </div>
@@ -74,10 +74,34 @@
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script>
+  const getVerificationCode = () => {
+    const codeText = $("#code-text");
+    const phone = $("#phone").val();
+
+    // phone 为空
+    if (!phone) {
+      alert("请输入手机号码");
+      return;
+    }
+
+    // 60 s 倒计时
+    let time = 60;
+    codeText.attr("disabled", true);
+    const timer = setInterval(() => {
+      time--;
+      codeText.text(time + "s");
+      if (time <= 0) {
+        clearInterval(timer);
+        codeText.text("获取验证码");
+        codeText.attr("disabled", false);
+      }
+    }, 1000)
+  }
+  
   const forms = document.querySelectorAll('.needs-validation')
 
   Array.from(forms).forEach(form => {
-    console.log(form);
+    console.log(form)
     form.addEventListener('submit', event => {
       if (!form.checkValidity()) {
         event.preventDefault()
@@ -87,19 +111,71 @@
     }, false)
   })
 
-  $("form").submit(function (event) {
-    const password = $("#password").val();
-    const password2 = $("#password2").val();
+  $("#register_form").submit(function (event) {
+    event.preventDefault()
 
-    console.log(password, password2);
+    // get data
+    const username = $("#username").val()
+    const password = $("#password").val()
+    const password2 = $("#password2").val()
+    const phone = $("#phone").val()
+    const verification = $("#verification").val()
 
     if (password !== password2) {
-      alert("两次密码不一致");
-      event.preventDefault();
+      alert("两次密码不一致")
     }
 
-    console.log("submit");
-  });
+    if (verification !== "1234") {
+      alert("验证码错误")
+    }
+
+    // submit
+    $.ajax({
+      url: "/api/user/register",
+      type: "post",
+      data: JSON.stringify({
+        username: username,
+        password: password,
+        tel: phone
+      }),
+      contentType: "application/json",
+      success: function (data) {
+        if (data.code !== "200") {
+          alert(data.msg)
+        }
+        else {
+          // login
+          $.ajax({
+            url: "/api/user/login",
+            type: "post",
+            data: JSON.stringify({
+              username: username,
+              password: password
+            }),
+            contentType: "application/json",
+            success: function (data) {
+              if (data.code !== "200") {
+                alert(data.msg)
+                return
+              }
+              // set local storage
+              localStorage.setItem('user', JSON.stringify(data.data));
+              // redirect
+              window.location.href = "/"
+            },
+            error: function () {
+              alert("登录失败, 请重新尝试")
+            }
+          })
+        }
+      },
+      error: function () {
+        alert("注册失败, 请重新尝试")
+      }
+    })
+
+    console.log("submit")
+  })
 </script>
 
 </html>

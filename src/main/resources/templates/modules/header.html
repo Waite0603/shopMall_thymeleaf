@@ -18,7 +18,7 @@
               <a class="nav-link " href="/login">登录</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/login">注册</a>
+              <a class="nav-link" href="/register">注册</a>
             </li>
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center" href="/shoppingCart">
@@ -30,11 +30,26 @@
               <a class="nav-link" href="/centerInfo">个人中心</a>
             </li>
             <li>
-              <a class="nav-link" href="/api/user/logout">退出</a>
+              <a class="nav-link" href="" onclick="logout()">退出</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
+
+  <script>
+    function logout() {
+      // clear localStorage
+      localStorage.removeItem('user');
+
+      $.ajax({
+        url: '/api/user/logout',
+        type: 'post',
+        success: function () {
+          window.location.href = '/login';
+        }
+      });
+    }
+  </script>
 </html>

@@ -27,9 +27,9 @@ public class UserController {
   }
 
   @RequestMapping("/logout")
-  public String logout(HttpServletRequest request) {
+  public ResponseEntity<Result> logout(HttpServletRequest request) {
     request.getSession().removeAttribute("user");
-    return "redirect:/";
+    return ResponseEntity.ok(Result.success("退出成功"));
   }
 
   @PostMapping("/register")

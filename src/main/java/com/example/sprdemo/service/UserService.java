@@ -19,7 +19,7 @@ public class UserService {
     User paramUser = new User();
     paramUser.setUsername(username);
     List<User> users = userMapper.selectAll(paramUser);
-    if (users.size() > 0) {
+    if (!users.isEmpty()) {
       return users.get(0);
     }
     return null;
@@ -29,7 +29,7 @@ public class UserService {
     User paramUser = new User();
     paramUser.setTel(tel);
     List<User> users = userMapper.selectAll(paramUser);
-    if (users.size() > 0) {
+    if (!users.isEmpty()) {
       return users.get(0);
     }
     return null;
@@ -87,7 +87,7 @@ public class UserService {
 
   public Result login(User user, HttpServletRequest request) {
     List<User> users = userMapper.selectAll(user);
-    if (users.size() > 0) {
+    if (!users.isEmpty()) {
       request.getSession().setAttribute("user", users.get(0));
       return Result.success(users.get(0));
     } else {

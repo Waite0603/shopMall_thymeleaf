@@ -57,27 +57,29 @@
 
   // from submit
   $('#login_form').submit(function (e) {
-    e.preventDefault();
+    e.preventDefault()
     $.ajax({
       url: '/api/user/login',
       type: 'post',
-      data: {
+      data: JSON.stringify({
         username: $('#username').val(),
         password: $('#password').val()
-      },
+      }),
+      contentType: 'application/json',
       success: function (data) {
+        if (data.code !== "200") {
+          alert(data.msg)
+          return
+        }
         // set local storage
-        console.log(data);
-        localStorage.setItem('user', data.data.username);
+        localStorage.setItem('user', JSON.stringify(data.data))
         // redirect
-        window.location.href = '/';
+        window.location.href = '/'
       },
-      error: function (data) {
-        // to json
-        data = JSON.parse(data.responseText);
-        alert(data.msg);
+      error: function () {
+        alert('登录失败, 请重新尝试')
       }
-    });
-  });
+    })
+  })
 </script>
 </html>
