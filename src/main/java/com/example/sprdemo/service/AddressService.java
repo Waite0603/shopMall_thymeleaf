@@ -34,4 +34,21 @@ public class AddressService {
     List<Address> addressList = addressMapper.selectAll(address);
     return Result.success(addressList);
   }
+
+  public Result delete(Address address) {
+    int flag = addressMapper.deleteById(address.getId());
+    if (flag == 0) {
+      return Result.error("403", "删除失败");
+    }
+    return Result.success();
+  }
+
+
+  public Result update(Address address) {
+    int flag = addressMapper.update(address);
+    if (flag == 0) {
+      return Result.error("403", "更新失败");
+    }
+    return Result.success();
+  }
 }

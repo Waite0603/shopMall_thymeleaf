@@ -4,12 +4,9 @@ import com.example.sprdemo.model.Address;
 import com.example.sprdemo.model.Result;
 import com.example.sprdemo.service.AddressService;
 import jakarta.annotation.Resource;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -28,14 +25,16 @@ public class AddressController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping("/delete")
-    public String delete() {
-        return "delete";
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> delete(@RequestBody Address address) {
+        Result result = addressService.delete(address);
+        return ResponseEntity.ok(result);
     }
 
     @RequestMapping("/update")
-    public String update() {
-        return "update";
+    public ResponseEntity<Result> update(@RequestBody Address address) {
+        Result result = addressService.update(address);
+        return ResponseEntity.ok(result);
     }
 
     @RequestMapping("/selectAll")

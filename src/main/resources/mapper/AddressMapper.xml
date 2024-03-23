@@ -16,6 +16,28 @@
         values (#{provinceId}, #{cityId}, #{regionId}, #{detail},#{customerId})
     </insert>
 
+    <update id="update" parameterType="com.example.sprdemo.model.Address">
+        update address
+        <set>
+            <if test="provinceId != null and provinceId != ''">
+                province_id = #{provinceId},
+            </if>
+            <if test="cityId != null and cityId != ''">
+                city_id = #{cityId},
+            </if>
+            <if test="regionId != null and regionId != ''">
+                region_id = #{regionId},
+            </if>
+            <if test="detail != null and detail != ''">
+                detail = #{detail},
+            </if>
+            <if test="customerId != null and customerId != ''">
+                customer_id = #{customerId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 
     <select id="selectAll" parameterType="com.example.sprdemo.model.Address" resultMap="addressResultMap">
         select * from address
