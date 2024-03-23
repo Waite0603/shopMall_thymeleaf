@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="common_header">
+  <!-- Common styles -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</th:block>
+
+<th:block th:fragment="common_js">
+  <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/sweetalert.min.js}"></script>
+</th:block>

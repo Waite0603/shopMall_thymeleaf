@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <th:block th:replace="~{modules/common.html :: common_header}"></th:block>
   <title>商城-登陆</title>
 </head>
 <body>
@@ -38,46 +38,48 @@
   </div>
 </div>
 </body>
-<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<th:block th:replace="~{modules/common.html :: common_js}"></th:block>
 <script>
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
+  const forms = document.querySelectorAll(".needs-validation")
 
   // Loop over them and prevent submission
   Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
+    form.addEventListener("submit", event => {
       if (!form.checkValidity()) {
         event.preventDefault()
         event.stopPropagation()
       }
-      form.classList.add('was-validated')
+      form.classList.add("was-validated")
     }, false)
   })
 
   // from submit
-  $('#login_form').submit(function (e) {
-    e.preventDefault()
+  $("#login_form").submit(function (event) {
+    event.preventDefault()
+
     $.ajax({
-      url: '/api/user/login',
-      type: 'post',
+      url: "/api/user/login",
+      type: "post",
       data: JSON.stringify({
-        username: $('#username').val(),
-        password: $('#password').val()
+        username: $("#username").val(),
+        password: $("#password").val()
       }),
-      contentType: 'application/json',
+      contentType: "application/json",
       success: function (data) {
         if (data.code !== "200") {
-          alert(data.msg)
+          swal("登录失败", data.msg, "error")
+
           return
         }
         // set local storage
-        localStorage.setItem('user', JSON.stringify(data.data))
+        localStorage.setItem("user", JSON.stringify(data.data))
+        localStorage.setItem("token", data.data["authorization"])
+
         // redirect
-        window.location.href = '/'
+        window.location.href = "/"
       },
       error: function () {
-        alert('登录失败, 请重新尝试')
+        swal("登录失败", "登录失败, 请重新尝试", "error")
       }
     })
   })

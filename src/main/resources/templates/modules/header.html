@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <header>
-    <nav class="navbar navbar-expand-lg" style="background-color: #F8F8F8;">
+    <nav class="navbar navbar-expand-lg" style="background-color: #F8F8F8">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Brand</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -41,15 +41,16 @@
   <script>
     function logout() {
       // clear localStorage
-      localStorage.removeItem('user');
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
 
       $.ajax({
         url: '/api/user/logout',
         type: 'post',
         success: function () {
-          window.location.href = '/login';
+          window.location.href = '/login'
         }
-      });
+      })
     }
   </script>
 </html>

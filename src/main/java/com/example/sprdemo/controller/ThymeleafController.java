@@ -9,12 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ThymeleafController {
   @GetMapping("/")
-  public ModelAndView index(HttpServletRequest request) {
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-      return new ModelAndView("login");
-    }
-    return new ModelAndView("index", "user", user);
+  public ModelAndView index() {
+    return new ModelAndView("index");
   }
 
   @GetMapping("/login")
