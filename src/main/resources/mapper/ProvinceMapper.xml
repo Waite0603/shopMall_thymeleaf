@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sprdemo.mapper.ProvinceMapper">
+
+    <resultMap id="provinceResultMap" type="com.example.sprdemo.model.Province">
+        <id column="id" property="id"/>
+        <result column="name" property="ename"/>
+    </resultMap>
+
+    <select id="selectProvinceById" resultType="com.example.sprdemo.model.Province">
+        SELECT * FROM province WHERE id = #{id}
+    </select>
+
+    <select id="selectAllProvince" resultType="com.example.sprdemo.model.Province">
+        SELECT * FROM province
+    </select>
+
+    <insert id="insertProvince" parameterType="com.example.sprdemo.model.Province">
+        INSERT INTO province (name, code) VALUES (#{name}, #{code})
+    </insert>
+
+    <update id="updateProvince" parameterType="com.example.sprdemo.model.Province">
+        UPDATE province SET name = #{name}, code = #{code} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteProvince" parameterType="int">
+        DELETE FROM province WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sprdemo.mapper.CityMapper">
+
+    <resultMap id="cityResultMap" type="com.example.sprdemo.model.City">
+        <id column="id" property="id"/>
+        <result column="bname" property="bname"/>
+        <result column="prov_id" property="provId"/>
+    </resultMap>
+
+
+
+    <select id="selectAllCity" parameterType="com.example.sprdemo.model.City" resultMap="cityResultMap">
+        SELECT * FROM city
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="bname != null and bname != ''">
+                AND bname = #{bname}
+            </if>
+            <if test="provId != null and provId != ''">
+                AND prov_id = #{provId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
