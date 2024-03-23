@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>商城-地址管理</title>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <th:block th:replace="~{modules/common.html :: common_header}"></th:block>
 </head>
 <body class="d-flex flex-column justify-content-between min-vh-100">
 
@@ -16,21 +16,8 @@
     <div class="content col-md-9 my-3">
       <div class="form-horizontal col-12 col-md-10" id="register_form">
         <h3 class="form-title pb-2">你的地址</h3>
-        <div class="alert alert-danger">
-          <span class="me-1">广东省</span>
-          <span class="me-1">深圳市</span>
-          <span class="me-1">南山区</span>
-          <span class="me-1">科技园</span>
-          <span>科技南路1001号</span>
-        </div>
-        <div class="alert alert-danger">
-          <span class="me-1">广东省</span>
-          <span class="me-1">深圳市</span>
-          <span class="me-1">南山区</span>
-          <span class="me-1">科技园</span>
-          <span>科技南路1001号</span>
-          <span class="badge bg-success">默认地址</span>
-        </div>
+        <span id="address-item"></span>
+        
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAddress">添加地址</a>
       </div>
 
@@ -48,31 +35,16 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-4">
-                  <select class="form-select" id="province" aria-label="Default select example">
-                    <option selected>省份</option>
-                    <option value="1">广东省</option>
-                    <option value="2">湖南省</option>
-                    <option value="3">湖北省</option>
-                  </select>
+                  <label for="province"></label><select class="form-select" id="province"></select>
                 </div>
                 <div class="col-4">
-                  <select class="form-select" id="city" aria-label="Default select example">
-                    <option selected>城市</option>
-                    <option value="1">深圳市</option>
-                    <option value="2">广州市</option>
-                    <option value="3">东莞市</option>
-                  </select>
+                  <label for="city"></label><select class="form-select" id="city"></select>
                 </div>
                 <div class="col-4">
-                  <select class="form-select" id="district" aria-label="Default select example">
-                    <option selected>区县</option>
-                    <option value="1">南山区</option>
-                    <option value="2">福田区</option>
-                    <option value="3">罗湖区</option>
-                  </select>
+                  <label for="district"></label><select class="form-select" id="district"></select>
                 </div>
               </div>
-              <div class="row mt-3">
+              <div class="row">
                 <div class="col-12">
                   <label for="street"></label><input type="text" class="form-control" id="street"
                                                      placeholder="请输入街道">
@@ -85,7 +57,7 @@
 
             <!-- 模态框底部 -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">添加</button>
+              <button type="button" class="btn btn-primary" onclick="handAddAddress()">添加</button>
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
             </div>
           </div>
@@ -97,16 +69,169 @@
 
 <th:block th:replace="~{modules/footer.html}"></th:block>
 </body>
-<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<th:block th:replace="~{modules/common.html :: common_js}"></th:block>
 <script>
-  // 动态更新地址
+  // render options
+  const renderOptions = (data, element) => {
+    data.forEach((value) => {
+      element.append(`<option value="${value.id}">${value.name}</option>`)
+    })
+  }
+
+  // onload
+  $(document).ready(function () {
+    let user_address_data = new Map()
+
+    $.ajax({
+      url: "/api/address/selectAll",
+      type: "get",
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
+      success: function (data) {
+        if (data.code !== "200") {
+          swal("获取地址失败", data.msg, "error")
+          return
+        }
+        user_address_data = data.data
+
+        // 渲染地址
+        user_address_data.forEach((value) => {
+          $('#address-item').append(`
+            <div class="alert alert-danger">
+              <span class="me-1">${value.provinceName}</span>
+              <span class="me-1">${value.cityName}</span>
+              <span class="me-1">${value.regionName}</span>
+              <span>${value.detail}</span>
+            </div>
+          `)
+        })
+      }
+    })
+
+    // 省市县三级联动
+    let address_data = new Map()
+    $.ajax({
+      url: "/api/areas/getAllAreas",
+      type: "get",
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
+      success: function (data) {
+        if (data.code !== "200") {
+          swal("获取地址失败", data.msg, "error")
+          return
+        }
+        address_data = data.data
+
+        let province = $('#province')
+        let city = $('#city')
+        let district = $('#district')
+
+        // init province, city, district
+        let provinceData = []
+        let cityData = []
+        let districtData = []
+
+        address_data.forEach((value) => {
+          provinceData.push({
+            id: value.id,
+            name: value.ename
+          })
+
+          let cityDataItem = []
+          let regionsDataItem = []
+          value.cities.forEach((cityValue) => {
+            cityDataItem.push({
+              id: cityValue.id,
+              name: cityValue.bname
+            })
+            let regionsDataItem2 = []
+            cityValue.regions.forEach((regionValue) => {
+              regionsDataItem2.push({
+                id: regionValue.id,
+                name: regionValue.fname
+              })
+            })
+            regionsDataItem.push(regionsDataItem2)
+          })
+          cityData.push(cityDataItem)
+          districtData.push(regionsDataItem)
+        })
+
+        renderOptions(provinceData, province)
+        renderOptions(cityData[0], city)
+        renderOptions(districtData[0][0], district)
+
+        // 省市县三级联动
+        province.change(function () {
+          const provinceIndex = province[0].selectedIndex
+          city.empty()
+          district.empty()
+          renderOptions(cityData[provinceIndex], city)
+
+          renderOptions(districtData[provinceIndex][0], district)
+        })
+
+        city.change(function () {
+          const provinceIndex = province[0].selectedIndex
+          const cityIndex = city[0].selectedIndex
+          district.empty()
+          if (districtData[provinceIndex][cityIndex] === undefined) {
+            return
+          }
+          renderOptions(districtData[provinceIndex][cityIndex], district)
+        })
+      }
+    })
+  })
+
+  // dynamic update address
   $('#street').change(function () {
-    const province = $('#province option:selected').text();
-    const city = $('#city option:selected').text();
-    const district = $('#district option:selected').text();
-    const street = $('#street').val();
-    $('#address').text(`${province} ${city} ${district} ${street}`);
-  });
+    const province = $('#province option:selected').text()
+    const city = $('#city option:selected').text()
+    const district = $('#district option:selected').text()
+    const street = $('#street').val()
+
+    $('#address').text(`${province} ${city} ${district} ${street}`)
+  })
+
+  // add address
+  const handAddAddress = () => {
+    const province = $('#province option:selected').val()
+    const city = $('#city option:selected').val()
+    const district = $('#district option:selected').val()
+    const street = $('#street').val()
+
+    if (!province || !city || !district || !street) {
+      swal("添加地址失败", "请填写完整地址", "error")
+      return
+    }
+
+    $.ajax({
+      url: "/api/address/add",
+      type: "post",
+      data: JSON.stringify({
+        provinceId: province,
+        cityId: city,
+        regionId: district,
+        detail: street
+      }),
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
+      contentType: "application/json",
+      success: function (data) {
+        if (data.code !== "200") {
+          swal("添加地址失败", data.msg, "error")
+          return
+        }
+        swal("添加地址成功", "添加地址成功", "success")
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
+      }
+    })
+  }
 </script>
 </html>
