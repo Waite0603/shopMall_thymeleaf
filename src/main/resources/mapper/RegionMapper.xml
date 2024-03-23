@@ -6,7 +6,7 @@
 
     <resultMap id="RegionResultMapper" type="com.example.sprdemo.model.Region">
         <id column="id" property="id"/>
-        <result column="name" property="fname"/>
+        <result column="fname" property="fname"/>
         <result column="city_id" property="cityId"/>
         <result column="postCode" property="postCode"/>
     </resultMap>
