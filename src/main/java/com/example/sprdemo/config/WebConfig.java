@@ -14,9 +14,29 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(jwtInterceptor).addPathPatterns("/**")
-      .excludePathPatterns("/")
-      .excludePathPatterns("/api/user/login")
-      .excludePathPatterns("/api/user/register")
-      .excludePathPatterns("/files/**");
+        .excludePathPatterns("/")
+        //登录注册api
+        .excludePathPatterns("/api/user/login")
+        .excludePathPatterns("/api/user/register")
+        //静态资源
+        .excludePathPatterns("/js/**")
+        .excludePathPatterns("/images/**")
+        .excludePathPatterns("/css/**")
+        .excludePathPatterns("/files/**")
+        //页面
+        .excludePathPatterns("/login")
+        .excludePathPatterns("/register")
+        .excludePathPatterns("/goods/detail")
+        .excludePathPatterns("/shoppingCart")
+        .excludePathPatterns("/centerInfo")
+        .excludePathPatterns("/centerPassword")
+        .excludePathPatterns("/centerAvatar")
+        .excludePathPatterns("/centerAddress")
+        .excludePathPatterns("/centerOrders")
+        .excludePathPatterns("/manageType")
+        .excludePathPatterns("/manageMerchant")
+        .excludePathPatterns("/manageStore")
+        .excludePathPatterns("/error")
+    ;
   }
 }

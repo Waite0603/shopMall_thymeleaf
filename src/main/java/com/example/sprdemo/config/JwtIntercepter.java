@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -17,6 +16,7 @@ public class JwtIntercepter implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    String requestURL = request.getRequestURL().toString();
     String authorization = request.getHeader("Authorization");
     if(ObjectUtil.isEmpty(authorization)) {
       authorization = request.getParameter("Authorization");
