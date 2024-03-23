@@ -76,10 +76,37 @@ public class UserService {
     } catch (Exception e) {
       return Result.error("403", "请重新登录");
     }
-
     if (currentUser == null) {
       return Result.error("403", "用户未登录");
     }
+
+    if(user.getUsername() != null){
+      User user1 = new User();
+      user1.setUsername(user.getUsername());
+      List<User> users = userMapper.IgnoreCurentUserUsernameSelectAll(user.getUsername(),currentUser.getId());
+      if(users.size() > 0){
+        return Result.error("403", "用户名已存在");
+      }
+    }
+  //使用的
+    if(user.getTel() != null){
+      User user1 = new User();
+      user1.setTel(user.getTel());
+      List<User> users = userMapper.IgnoreCurentUserTelSelectAll(user.getTel(), currentUser.getId());
+      if(users.size() > 0){
+        return Result.error("403", "每个手机号只能绑定一个账号");
+      }
+    }
+
+    if(user.getEmail() != null){
+      User user1 = new User();
+      user1.setTel(user.getEmail());
+      List<User> users = userMapper.IgnoreCurentUserEmialSelectAll(user.getEmail(), currentUser.getId());
+      if(users.size() > 0){
+        return Result.error("403", "手机号已存在");
+      }
+    }
+
     user.setId(currentUser.getId());
     int update = userMapper.update(user);
 

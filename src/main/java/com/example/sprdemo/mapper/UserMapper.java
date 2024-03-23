@@ -12,4 +12,15 @@ public interface UserMapper {
   int insert(User user);
 
   int update(User user);
+
+  @Select("select * from customer where tel = #{username} and id not in (#{id})")
+  List<User> IgnoreCurentUserUsernameSelectAll(String username, int id);
+
+
+  @Select("select * from customer where tel = #{tel} and id not in (#{id})")
+  List<User> IgnoreCurentUserTelSelectAll(String tel, int id);
+
+
+  @Select("select * from customer where email = #{email} and id not in (#{id})")
+  List<User> IgnoreCurentUserEmialSelectAll(String email, int id);
 }
