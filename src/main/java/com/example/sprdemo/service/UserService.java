@@ -37,7 +37,6 @@ public class UserService {
   }
 
 
-
   public List<User> selectAll(User user) {
     return userMapper.selectAll(user);
   }
@@ -71,15 +70,15 @@ public class UserService {
   }
 
   public Result update(User user) {
-    User currentUser = TokenUtils.getCurrentUser();
+    User currentUser = null;
+    try {
+      currentUser = TokenUtils.getCurrentUser();
+    } catch (Exception e) {
+      return Result.error("403", "请重新登录");
+    }
+
     if (currentUser == null) {
       return Result.error("403", "用户未登录");
-    }
-    if (this.selectByUsername(user.getUsername()) != null) {
-      return Result.error("403", "用户名已存在");
-    }
-    if (this.selectByTel(user.getTel()) != null) {
-      return Result.error("403", "手机号已存在");
     }
     user.setId(currentUser.getId());
     int update = userMapper.update(user);
