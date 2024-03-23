@@ -20,6 +20,18 @@ public class AddressService {
 
   @Resource
   AddressMapper addressMapper;
+
+  @Resource
+  private ProvinceService provinceService;
+
+  @Resource
+  private CityService cityService;
+
+  @Resource
+  private RegionService regionService;
+
+
+
   public Result insert(Address address) {
     User currentUser = TokenUtils.getCurrentUser();
     address.setCustomerId(currentUser.getId());

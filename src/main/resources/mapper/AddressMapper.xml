@@ -9,6 +9,10 @@
         <result column="city_id" property="cityId"/>
         <result column="region_id" property="regionId"/>
         <result column="detail" property="detail"/>
+        <result column="provinceNmae" property="provinceName"/>
+        <result column="cityName" property="cityName"/>
+        <result column="regionName" property="regionName"/>
+
     </resultMap>
 
     <insert id="insert" parameterType="com.example.sprdemo.model.Address">
@@ -40,7 +44,10 @@
 
 
     <select id="selectAll" parameterType="com.example.sprdemo.model.Address" resultMap="addressResultMap">
-        select * from address
+        select a.* , p.ename provinceNmae , c.bname cityName , r.fname regionName from address a
+        join province p on a.province_id = p.id
+        join city c on a.city_id = c.id
+        join region r on a.region_id = r.id
         <where>
             <if test="provinceId != null and provinceId != ''">
                 and province_id = #{provinceId}
