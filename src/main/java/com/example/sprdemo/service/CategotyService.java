@@ -32,4 +32,12 @@ public class CategotyService {
   public List<Category> selectAll(Category category) {
     return categoryMapper.selectAll(category);
   }
+
+  public Result addCategory(Category category) {
+    int flag  = categoryMapper.insert(category);
+    if(flag == 0) {
+      return Result.error("403","添加失败");
+    }
+    return Result.success();
+  }
 }

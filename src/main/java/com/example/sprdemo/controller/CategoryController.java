@@ -22,5 +22,11 @@ public class CategoryController {
     return ResponseEntity.ok(result);
   }
 
+  @PostMapping("/addCategory")
+  public ResponseEntity<Result> addCategory(@RequestBody Category category) {
+    Result result = categotyService.addCategory(category);
+    return ResponseEntity.ok(result);
+  }
+
 
 }

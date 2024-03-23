@@ -4,6 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sprdemo.mapper.CategoryMapper">
 
+
+    <insert id="insert" parameterType="com.example.sprdemo.model.Category">
+        insert into category (aname, code, pid, isShow)
+        values (#{aname}, #{code}, #{pid}, #{isShow})
+    </insert>
+
     <select id="selectAll" resultType="com.example.sprdemo.model.Category">
         select *
         from category
@@ -25,5 +31,7 @@
             </if>
         </where>
     </select>
+
+
 
 </mapper>
