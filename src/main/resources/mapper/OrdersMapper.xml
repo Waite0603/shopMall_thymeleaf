@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sprdemo.mapper.OrdersMapper">
+
+    <resultMap id="orders" type="com.example.sprdemo.model.Orders">
+
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="totalSum" property="totalSum"/>
+        <result column="carriage" property="carriage"/>
+        <result column="realSum" property="realSum"/>
+        <result column="totalNum" property="totalNum"/>
+        <result column="receiverAddress" property="receiverAddress"/>
+        <result column="receiverName" property="receiverName"/>
+        <result column="receiverTel" property="receiverTel"/>
+        <result column="state" property="state"/>
+        <result column="orderTime" property="orderTime"/>
+        <result column="payTime" property="payTime"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="payType" property="payType"/>
+    </resultMap>
+
+
+    <select id="getCurrentUserOrders" parameterType="String" resultMap="orders">
+        select id , code , totalSum , realSum , totalNum , receiverAddress , receiverName,state , orderTime from orders
+        <where>
+            <if test="id != null and id != ''">
+                and customer_id = #{id}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

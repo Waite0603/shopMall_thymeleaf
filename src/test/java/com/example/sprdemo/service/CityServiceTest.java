@@ -22,5 +22,4 @@ public class CityServiceTest {
     List<City> cities = cityService.selectAllCity(city);
     System.out.println(cities);
   }
-
 }

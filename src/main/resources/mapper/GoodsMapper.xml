@@ -25,7 +25,7 @@
                 AND id = #{id}
             </if>
             <if test="keywords != null and keywords != ''">
-                AND keywords = #{keywords}
+                AND keywords like concat('%',#{keywords},'%')
             </if>
             <if test="code != null and code != ''">
                 AND code = #{code}
@@ -52,6 +52,16 @@
                 AND product_id = #{productId}
             </if>
         </where>
+    </select>
+
+    <select id="selectByOrdersId" resultType="com.example.sprdemo.model.GoodsDao">
+        select * , p.dname as productName , p.intro as described
+        from orderitem o
+        join goods g
+            on o.goods_id = g.id
+        join product p
+            on g.product_id = p.id
+        where o.orders_id = #{ordersId}
     </select>
 
 </mapper>

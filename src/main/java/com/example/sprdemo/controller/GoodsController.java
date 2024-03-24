@@ -21,4 +21,11 @@ public class GoodsController {
     Result result = goodsService.getAllGoods(goods,pageNum,pageSize);
     return ResponseEntity.ok(result);
   }
+
+  @GetMapping("/getGoodsById")
+  public ResponseEntity<Result> getGoodsById(@RequestBody Goods goods) {
+    Result result = goodsService.getGoodsById(goods.getId());
+    return ResponseEntity.ok(result);
+  }
+
 }
