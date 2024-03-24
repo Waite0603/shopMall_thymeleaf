@@ -15,7 +15,7 @@ public class CategoryController {
   CategotyService categotyService;
 
   @GetMapping("/getAllCategory")
-  public ResponseEntity<Result> getCategory(@RequestBody Category category,
+  public ResponseEntity<Result> getCategory( Category category,
                                             @RequestParam(defaultValue ="1") int pageNum,
                                             @RequestParam(defaultValue = "10") int pageSize) {
     Result result = categotyService.selectPage(category,pageNum, pageSize);
