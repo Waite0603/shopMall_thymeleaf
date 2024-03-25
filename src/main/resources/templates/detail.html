@@ -53,12 +53,12 @@
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script>
   $(function () {
-    $('.thumbnail').on('click', function () {
-      $('#mainImage').attr('src', $(this).attr('src'));
-      $('.thumbnail').removeClass('thumbnail-active');
-      $(this).addClass('thumbnail-active');
-    });
-  });
+    $(".thumbnail").on("click", function () {
+      $("#mainImage").attr("src", $(this).attr("src"))
+      $(".thumbnail").removeClass("thumbnail-active")
+      $(this).addClass("thumbnail-active")
+    })
+  })
 </script>
 
 <style>

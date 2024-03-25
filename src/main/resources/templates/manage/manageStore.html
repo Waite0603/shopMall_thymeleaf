@@ -215,13 +215,13 @@
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script>
   const handSubmit = () => {
-    $(".needs-validation").addClass('was-validated');
-  };
+    $(".needs-validation").addClass("was-validated")
+  }
 
   // 模态框关闭时清空表单
-  $('#modalBox').on('hidden.bs.modal', function () {
-    $(".needs-validation").removeClass('was-validated').find("input").val("");
-  });
+  $("#modalBox").on("hidden.bs.modal", function () {
+    $(".needs-validation").removeClass("was-validated").find("input").val("")
+  })
 
 </script>
 

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang='en' xmlns:th='http://www.thymeleaf.org'>
 <head>
-  <meta charset="UTF-8">
+  <meta charset='UTF-8'>
   <title>商城-首页</title>
-  <th:block th:replace="~{modules/common.html :: common_header}"></th:block>
+  <th:block th:replace='~{modules/common.html :: common_header}'></th:block>
 </head>
-<body class="d-flex flex-column justify-content-between min-vh-100">
+<body class='d-flex flex-column justify-content-between min-vh-100'>
 
-<th:block th:replace="~{modules/header.html}"></th:block>
+<th:block th:replace='~{modules/header.html}'></th:block>
 
-<main class="flex-grow-1">
-  <div class="container mt-3">
-    <div class="d-flex flex-wrap" id="shop-view"></div>
+<main class='flex-grow-1'>
+  <div class='container mt-3'>
+    <div class='d-flex flex-wrap' id='shop-view'></div>
   </div>
 </main>
 
-<th:block th:replace="~{modules/footer.html}"></th:block>
+<th:block th:replace='~{modules/footer.html}'></th:block>
 
 </body>
 <style>
@@ -32,43 +32,43 @@
     }
 </style>
 
-<th:block th:replace="~{modules/common.html :: common_js}"></th:block>
+<th:block th:replace='~{modules/common.html :: common_js}'></th:block>
 <script>
   // go to product detail page
   const toProductDetail = (data) => {
-    data = JSON.stringify(data);
-    window.location.href = '/goods/detail?id=' + JSON.parse(data).id;
+    data = JSON.stringify(data)
+    window.location.href = "/goods/detail?id=" + JSON.parse(data).id
   }
 
   $(document).ready(function () {
     $.ajax({
-      url: '/api/goods/getAllGoods',
-      type: 'GET',
+      url: "/api/goods/getAllGoods",
+      type: "GET",
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        "Authorization": "Bearer " + localStorage.getItem("token")
       },
       success: function (data) {
-        data = data.data.list;
-        console.log(data);
-        let html = '';
+        data = data.data.list
+        console.log(data)
+        let html = ""
         for (let i = 0; i < data.length; i++) {
-          html += '<div class="col-md-4 px-2 mt-3">';
-          html += '<div class="card">';
-          html += '<img src="https://qiniu.waite.wang/202401222127418.png" class="card-img-top" alt="...">';
-          html += '<div class="card-body text-center">';
-          html += '<h5 class="card-text text-ellipsis">' + data[i]["keywords"] + '</h5>';
-          html += '<p class="card-text">';
-          html += '$: ' + data[i]["outPrice"].toFixed(2) + '元 <br>';
-          html += '库存: ' + data[i]["stock"] + '件';
-          html += '</p>';
-          html += '<button class="btn btn-primary" onclick=\'toProductDetail(' + JSON.stringify(data[i]) + ')\'>查看详情</button>';
-          html += '</div>';
-          html += '</div>';
-          html += '</div>';
+          html += "<div class='col-md-4 px-2 mt-3'>"
+          html += "<div class='card'>"
+          html += "<img src='https://qiniu.waite.wang/202401222127418.png' class='card-img-top' alt='...'>"
+          html += "<div class='card-body text-center'>"
+          html += "<h5 class='card-text text-ellipsis'>" + data[i]['keywords'] + "</h5>"
+          html += "<p class='card-text'>"
+          html += "$: " + data[i]['outPrice'].toFixed(2) + "元 <br>"
+          html += "库存: " + data[i]['stock'] + "件"
+          html += "</p>"
+          html += "<button class='btn btn-primary' onclick=\"toProductDetail(" + JSON.stringify(data[i]) + ")\">查看详情</button>"
+          html += "</div>"
+          html += "</div>"
+          html += "</div>"
         }
-        $('#shop-view').html(html);
+        $("#shop-view").html(html)
       }
-    });
+    })
   })
 </script>
 

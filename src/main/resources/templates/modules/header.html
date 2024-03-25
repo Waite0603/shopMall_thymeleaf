@@ -41,14 +41,14 @@
   <script>
     function logout() {
       // clear localStorage
-      localStorage.removeItem('user')
-      localStorage.removeItem('token')
+      localStorage.removeItem("user")
+      localStorage.removeItem("token")
 
       $.ajax({
-        url: '/api/user/logout',
-        type: 'post',
+        url: "/api/user/logout",
+        type: "post",
         success: function () {
-          window.location.href = '/login'
+          window.location.href = "/login"
         }
       })
     }

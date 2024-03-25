@@ -87,54 +87,54 @@
 <script>
   // init from
 
-  user = JSON.parse(localStorage.getItem('user'));
+  user = JSON.parse(localStorage.getItem("user"))
   console.log(user)
   if (user) {
-    $('#username').val(user.username);
-    $('#intro').val(user.intro);
-    $('#phone').val(user.tel);
-    $('#email').val(user.email);
-    $('#id-card').val(user.cardID);
+    $("#username").val(user.username)
+    $("#intro").val(user.intro)
+    $("#phone").val(user.tel)
+    $("#email").val(user.email)
+    $("#id-card").val(user.cardID)
   }
 
   // from submit
   $("#update-form").submit(function (event) {
     if (!this.checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.classList.add('was-validated');
+      event.preventDefault()
+      event.stopPropagation()
+      this.classList.add("was-validated")
     } else {
-      event.preventDefault();
+      event.preventDefault()
 
-      const userData = JSON.parse(localStorage.getItem('user'));
+      const userData = JSON.parse(localStorage.getItem("user"))
 
       $.ajax({
-        url: '/api/user/update',
-        type: 'post',
+        url: "/api/user/update",
+        type: "post",
         data: JSON.stringify({
-          tel: $('#phone').val(),
-          email: $('#email').val(),
-          cardID: $('#id-card').val(),
-          intro: $('#intro').val()
+          tel: $("#phone").val(),
+          email: $("#email").val(),
+          cardID: $("#id-card").val(),
+          intro: $("#intro").val()
         }),
         headers: {
-          'Authorization': localStorage.getItem('token')
+          "Authorization": localStorage.getItem("token")
         },
-        contentType: 'application/json',
+        contentType: "application/json",
         success: function (res) {
           if (res.code === "200") {
-            swal('更新成功', '更新成功', 'success');
-            userData.tel = $('#phone').val();
-            userData.email = $('#email').val();
-            userData.cardID = $('#id-card').val();
-            userData.intro = $('#intro').val();
-            localStorage.setItem('user', JSON.stringify(userData));
+            swal("更新成功", "更新成功", "success")
+            userData.tel = $("#phone").val()
+            userData.email = $("#email").val()
+            userData.cardID = $("#id-card").val()
+            userData.intro = $("#intro").val()
+            localStorage.setItem("user", JSON.stringify(userData))
           } else {
-            swal('更新失败', res.msg, 'error');
+            swal("更新失败", res.msg, "error")
           }
         },
         error: function () {
-          alert('更新失败');
+          alert("更新失败")
         }
       })
     }
