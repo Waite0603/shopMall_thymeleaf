@@ -32,19 +32,20 @@
     </li>
   </ul>
 </div>
-<script>
-  const url = window.location.pathname;
-  const navs = document.querySelectorAll('.nav-link');
-  navs.forEach(nav => {
-    if (nav.getAttribute('href') === url) {
-      nav.classList.add('active');
-    }
-  });
-</script>
 </body>
 <style>
   .sidebar .active {
     border-radius: 0;
   }
 </style>
+
+<script>
+  const url = window.location.pathname;
+  const navs = document.querySelectorAll(".nav-link")
+  navs.forEach(nav => {
+    if (nav.getAttribute("href") === url) {
+      nav.classList.add("active")
+    }
+  });
+</script>
 </html>

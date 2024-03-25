@@ -66,6 +66,19 @@
 
 <th:block th:replace="~{modules/footer.html}"></th:block>
 </body>
+<style>
+  .good-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+  }
+
+  .delete {
+    color: red;
+    cursor: pointer;
+  }
+</style>
+
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script>
@@ -87,18 +100,18 @@
       quantity: 1,
       img: 'https://via.placeholder.com/30/09f/fff'
     }
-  ];
+  ]
 
   $("#good-welcome")
-    .text(goodsList.length ? `你已经购买了${goodsList.length}件商品` : "你还没有购买任何商品");
+    .text(goodsList.length ? `你已经购买了${goodsList.length}件商品` : "你还没有购买任何商品")
 
   const updateTotal = () => {
-    let total = 0;
+    let total = 0
     $(".goods-total").each(function () {
-      total += parseFloat($(this).text());
-    });
-    $("#total").text(total.toFixed(2));
-  };
+      total += parseFloat($(this).text())
+    })
+    $("#total").text(total.toFixed(2))
+  }
 
   $("#goodsContainer").html(goodsList.map(goods => `
     <tr>
@@ -117,55 +130,43 @@
     </tr>
   `).join(""))
 
-  updateTotal();
+  updateTotal()
 
   // Increment quantity
   $(".increment").click(function () {
-    let quantity = $(this).siblings(".quantity").text();
-    quantity++;
-    $(this).siblings(".quantity").text(quantity);
+    let quantity = $(this).siblings(".quantity").text()
+    quantity++
+    $(this).siblings(".quantity").text(quantity)
 
-    let price = $(this).parent().siblings(".price").text();
+    let price = $(this).parent().siblings(".price").text()
     // 保留两位小数
-    let goodTotal = (price * quantity).toFixed(2);
-    $(this).parent().siblings(".goods-total").text(goodTotal);
+    let goodTotal = (price * quantity).toFixed(2)
+    $(this).parent().siblings(".goods-total").text(goodTotal)
 
-    updateTotal();
-  });
+    updateTotal()
+  })
 
   // Decrement quantity
   $(".decrement").click(function () {
-    let quantity = $(this).siblings(".quantity").text();
+    let quantity = $(this).siblings(".quantity").text()
     if (quantity > 1) {
-      quantity--;
-      $(this).siblings(".quantity").text(quantity);
+      quantity--
+      $(this).siblings(".quantity").text(quantity)
 
-      let price = $(this).parent().siblings(".price").text();
+      let price = $(this).parent().siblings(".price").text()
       // 保留两位小数
-      let goodTotal = (price * quantity).toFixed(2);
-      $(this).parent().siblings(".goods-total").text(goodTotal);
+      let goodTotal = (price * quantity).toFixed(2)
+      $(this).parent().siblings(".goods-total").text(goodTotal)
 
-      updateTotal();
+      updateTotal()
     }
-  });
+  })
 
   // Delete goods
   $(".delete").click(function () {
-    $(this).parents("tr").remove();
-    updateTotal();
-  });
+    $(this).parents("tr").remove()
+    updateTotal()
+  })
 </script>
 
-<style>
-  .good-img {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-  }
-
-  .delete {
-    color: red;
-    cursor: pointer;
-  }
-</style>
 </html>

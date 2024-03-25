@@ -97,7 +97,7 @@
 
         // 渲染地址
         user_address_data.forEach((value) => {
-          $('#address-item').append(`
+          $("#address-item").append(`
             <div class="alert alert-danger">
               <span class="me-1">${value.provinceName}</span>
               <span class="me-1">${value.cityName}</span>
@@ -124,9 +124,9 @@
         }
         address_data = data.data
 
-        let province = $('#province')
-        let city = $('#city')
-        let district = $('#district')
+        let province = $("#province")
+        let city = $("#city")
+        let district = $("#district")
 
         // init province, city, district
         let provinceData = []
@@ -187,21 +187,21 @@
   })
 
   // dynamic update address
-  $('#street').change(function () {
-    const province = $('#province option:selected').text()
-    const city = $('#city option:selected').text()
-    const district = $('#district option:selected').text()
-    const street = $('#street').val()
+  $("#street").change(function () {
+    const province = $("#province option:selected").text()
+    const city = $("#city option:selected").text()
+    const district = $("#district option:selected").text()
+    const street = $("#street").val()
 
-    $('#address').text(`${province} ${city} ${district} ${street}`)
+    $("#address").text(`${province} ${city} ${district} ${street}`)
   })
 
   // add address
   const handAddAddress = () => {
-    const province = $('#province option:selected').val()
-    const city = $('#city option:selected').val()
-    const district = $('#district option:selected').val()
-    const street = $('#street').val()
+    const province = $("#province option:selected").val()
+    const city = $("#city option:selected").val()
+    const district = $("#district option:selected").val()
+    const street = $("#street").val()
 
     if (!province || !city || !district || !street) {
       swal("添加地址失败", "请填写完整地址", "error")

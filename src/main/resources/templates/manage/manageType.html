@@ -130,34 +130,34 @@
   }
 
   const renderPagination = (pageTotal, pageSize, currentPage) => {
-    const paginationItem = $("#pagination-item");
-    paginationItem.empty();
+    const paginationItem = $("#pagination-item")
+    paginationItem.empty()
 
     // Previous button
     const prevButton = $(`<li class="page-item">
       <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
+        <span aria-hidden="true">&laquo</span>
       </a>
-    </li>`);
+    </li>`)
     if (currentPage === 1) {
-      prevButton.addClass("disabled");
+      prevButton.addClass("disabled")
     } else {
       prevButton.click(function () {
-        getTypeData(currentPage - 1, pageSize);
-      });
+        getTypeData(currentPage - 1, pageSize)
+      })
     }
-    paginationItem.append(prevButton);
+    paginationItem.append(prevButton)
 
     // Page numbers
     for (let i = 1; i <= pageTotal; i++) {
-      const li = $(`<li class="page-item"><a class="page-link" href="#">${i}</a></li>`);
+      const li = $(`<li class="page-item"><a class="page-link" href="#">${i}</a></li>`)
       if (i === currentPage) {
-        li.addClass("active");
+        li.addClass("active")
       }
       li.click(function () {
-        getTypeData(i, pageSize);
-      });
-      paginationItem.append(li);
+        getTypeData(i, pageSize)
+      })
+      paginationItem.append(li)
     }
 
     // Next button
@@ -165,16 +165,16 @@
       <a class="page-link" href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
-    </li>`);
+    </li>`)
     if (currentPage === pageTotal) {
-      nextButton.addClass("disabled");
+      nextButton.addClass("disabled")
     } else {
       nextButton.click(function () {
-        getTypeData(currentPage + 1, pageSize);
-      });
+        getTypeData(currentPage + 1, pageSize)
+      })
     }
-    paginationItem.append(nextButton);
-  };
+    paginationItem.append(nextButton)
+  }
 
   const getTypeData = (pageNum, pageSize) => {
     currentPage = pageNum
@@ -247,8 +247,8 @@
   }
 
   $("#modalBox").on("hidden.bs.modal", function () {
-    $(".needs-validation").removeClass("was-validated").find("input").val("");
-  });
+    $(".needs-validation").removeClass("was-validated").find("input").val("")
+  })
 </script>
 
 </html>
