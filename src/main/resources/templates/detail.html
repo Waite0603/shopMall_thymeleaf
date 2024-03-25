@@ -10,33 +10,35 @@
 <th:block th:replace="~{modules/header.html}"></th:block>
 
 <main class="flex-grow-1 mt-5">
-  <div class="container">
+  <div class="container" style="visibility: hidden;">
     <div class="row">
       <!-- 购物详情页 -->
-      <div class="col-12 col-md-6 d-flex flex-column">
-        <div class="d-flex justify-content-center align-items-center">
-          <img id="mainImage" src="https://via.placeholder.com/300" alt="">
+      <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center" style="width: 300px; height: 300px; ">
+          <!-- 占位div -->
+          <img class="overflow-hidden" id="mainImage" src="https://qiniu.waite.wang/202401222127418.png" alt="">
         </div>
         <div class="d-flex justify-content-center">
-          <img class="thumbnail thumbnail-active" src="https://via.placeholder.com/300" alt="">
+          <img class="thumbnail thumbnail-active" src="https://qiniu.waite.wang/202401222127418.png" alt="">
           <img class="thumbnail" src="https://via.placeholder.com/300/0000FF" alt="">
           <img class="thumbnail" src="https://via.placeholder.com/300/008000" alt="">
         </div>
       </div>
       <div class="col-12 col-md-6 mt-5">
-        <h3>商品名称</h3>
-        <p>言必信，行必果。先进于礼乐，野人也；后进于礼乐，君子也。如用之，则吾从先进。</p>
-        <p style="background-color: #DFF0D8;">
+        <h3 id="name"></h3>
+        <p id="intro"></p>
+        <p style="background-color: #DFF0D8;" id="price">
           会员价: <span class="text-warning">￥17.00元</span> <br>
           优惠价: <span class="text-danger">￥22.56元</span><br>
           原价: <span class="text-muted">￥24.66元</span><br>
         </p>
-        <p>数量:
-          <label>
-            <input class="col-6 col-md-2 text-center" type="number" value="1">
-          </label>
-          &nbsp
-          件(库存量: <span class="fw-semibold">234</span>件)</p>
+        <p>
+          数量:
+          <button class="btn btn-outline-secondary btn-sm decrement">-</button>
+          <span class="mx-1" id="num">1</span>
+          <button class="btn btn-outline-secondary btn-sm increment">+</button>
+          件(库存量: <span class="fw-semibold" id="stock"></span>件)
+        </p>
         <p class="fst-italic fs-6 text-muted">-已成交 <span class="fw-semibold">234</span> 件</p>
 
         <span class="d-flex justify-content-center">
@@ -52,13 +54,74 @@
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script>
+  $(document).ready(function () {
+    // get product id
+    const url = new URL(window.location.href)
+    const id = url.searchParams.get("id")
+
+    console.log(id)
+
+    if (!id) {
+      swal("错误", "无效的商品ID", "error")
+      window.location.href = "/index"
+    }
+
+    // get product detail
+    $.ajax({
+      url: "/api/goods/getGoodsById?id=" + id,
+      type: "GET",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      },
+      success: function (data) {
+        if (data.code === "200") {
+          data = data.data
+          console.log(data)
+
+          $("#name").text(data.keywords)
+          $("#intro").text(data.chSpec)
+          $("#price").html("进货价: <span class='text-warning'>￥" + data.inPrice.toFixed(2) + "元</span> <br>" +
+            "优惠价: <span class='text-danger'>￥" + data.outPrice.toFixed(2) + "元</span><br>" +
+            "原价: <span class='text-muted'>￥" + data.outPrice.toFixed(2) + "元</span><br>")
+          $("#stock").text(data.stock)
+        } else {
+          swal("错误", data.message, "error")
+        }
+      }
+    })
+
+
+  })
+
   $(function () {
+    // show detail page
+    $(".container").css("visibility", "visible")
+
     $(".thumbnail").on("click", function () {
       $("#mainImage").attr("src", $(this).attr("src"))
       $(".thumbnail").removeClass("thumbnail-active")
       $(this).addClass("thumbnail-active")
     })
   })
+
+  // 数量加减
+  $(".increment").on("click", function () {
+    let num = parseInt($("#num").text())
+    let stock = parseInt($("#stock").text())
+    if (num < stock) {
+      $("#num").text(num + 1)
+    }
+  })
+
+  $(".decrement").on("click", function () {
+    let num = parseInt($("#num").text())
+    if (num > 1) {
+      $("#num").text(num - 1)
+    }
+  })
+
+
+
 </script>
 
 <style>

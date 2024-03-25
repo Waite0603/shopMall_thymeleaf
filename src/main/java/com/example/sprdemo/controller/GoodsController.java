@@ -23,7 +23,7 @@ public class GoodsController {
   }
 
   @GetMapping("/getGoodsById")
-  public ResponseEntity<Result> getGoodsById(@RequestBody Goods goods) {
+  public ResponseEntity<Result> getGoodsById(Goods goods) {
     Result result = goodsService.getGoodsById(goods.getId());
     return ResponseEntity.ok(result);
   }

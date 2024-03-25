@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>商城-我的订单</title>
   <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <th:block th:replace='~{modules/common.html :: common_header}'></th:block>
 </head>
 <body class="d-flex flex-column justify-content-between min-vh-100">
 
@@ -143,8 +144,7 @@
 
 <th:block th:replace=" ~{modules/footer.html}"></th:block>
 </body>
-<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<th:block th:replace='~{modules/common.html :: common_js}'></th:block>
 <style>
   .order-img {
     width: 30px;
