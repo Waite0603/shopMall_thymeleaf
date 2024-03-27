@@ -11,21 +11,40 @@
   <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/sweetalert.min.js}"></script>
   <script>
-    const URL = window.location.href;
+    const URL = window.location.href
     // exclude login and register pages
-    if (! (URL.includes('login') || URL.includes('register'))) {
+    if (! (URL.includes("login") || URL.includes("register"))) {
       // get token
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token")
       // if token is not available, redirect to login page
       if (!token) {
         // clear local storage
-        localStorage.clear();
+        localStorage.clear()
 
         swal("未经授权", "请登录以继续", "error")
 
         setTimeout(() => {
-          window.location.href = '/login';
-        }, 1000);
+          window.location.href = "/login"
+        }, 1000)
+      }
+      else {
+        const user = JSON.parse(localStorage.getItem("user"))
+        if (!user) {
+          swal("未经授权", "请登录以继续", "error")
+
+          setTimeout(() => {
+            window.location.href = "/login"
+          }, 1000)
+        }
+        else {
+          const showLogin = $("#showLogin")
+          showLogin.empty()
+          showLogin.append(
+            "<li class='nav-item'>" +
+            "<a class='nav-link'>" + "欢迎你 " + user.username + "</a>" +
+            "</li>"
+          )
+        }
       }
     }
   </script>
