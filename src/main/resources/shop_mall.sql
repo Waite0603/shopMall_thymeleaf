@@ -11,7 +11,7 @@
  Target Server Version : 80100
  File Encoding         : 65001
 
- Date: 22/03/2024 13:46:29
+ Date: 16/05/2024 01:20:46
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `address`  (
   CONSTRAINT `FK_address_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `FK_address_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `FK_address_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 60002 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '地址表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 60011 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '地址表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of address
@@ -43,6 +43,9 @@ CREATE TABLE `address`  (
 INSERT INTO `address` VALUES (60000, 10000, 80000, 90003, '测试地址1', 40000);
 INSERT INTO `address` VALUES (60001, 10000, 80001, 90001, '测试地址2', 40000);
 INSERT INTO `address` VALUES (60007, 10000, 80000, 90003, '测试地址3', 40000);
+INSERT INTO `address` VALUES (60008, 10000, 80000, 90003, '测试地址5', 40005);
+INSERT INTO `address` VALUES (60010, 10000, 80000, 90003, '测试地址3', 40000);
+INSERT INTO `address` VALUES (60011, 10000, 80000, 90001, 'szdf', 40000);
 
 -- ----------------------------
 -- Table structure for brand
@@ -83,7 +86,7 @@ INSERT INTO `brand` VALUES (99009, 'pp0009', '特仑苏', NULL, NULL, NULL, 2000
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `code` char(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '分类编码',
+  `code` char(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '分类编码',
   `aname` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '分类名称',
   `pid` int NULL DEFAULT NULL COMMENT '分类父ID',
   `isShow` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT '0' COMMENT '是否显示',
@@ -92,7 +95,7 @@ CREATE TABLE `category`  (
   UNIQUE INDEX `IN_name`(`aname` ASC) USING BTREE,
   INDEX `FK_cate_cate`(`pid` ASC) USING BTREE,
   CONSTRAINT `FK_cate_cate` FOREIGN KEY (`pid`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 20018 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品分类表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 20028 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品分类表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of category
@@ -100,7 +103,7 @@ CREATE TABLE `category`  (
 INSERT INTO `category` VALUES (20000, 'FL0001', '日用品', NULL, '0');
 INSERT INTO `category` VALUES (20001, 'FL0002', '零食', NULL, '0');
 INSERT INTO `category` VALUES (20002, 'FL0003', '美妆', NULL, '0');
-INSERT INTO `category` VALUES (20003, 'FL0004', '家用电器', NULL, '0');
+INSERT INTO `category` VALUES (20003, 'FL00018', '火锅用品', NULL, '0');
 INSERT INTO `category` VALUES (20004, 'FL0005', '电子设备', NULL, '0');
 INSERT INTO `category` VALUES (20005, 'FL0006', '即食', 20001, '0');
 INSERT INTO `category` VALUES (20006, 'FL0007', '麻辣', 20001, '0');
@@ -113,6 +116,12 @@ INSERT INTO `category` VALUES (20014, 'FL0013', '服装', NULL, '0');
 INSERT INTO `category` VALUES (20015, 'FL0014', '家居', NULL, '0');
 INSERT INTO `category` VALUES (20016, 'FL0015', '家俱', NULL, '0');
 INSERT INTO `category` VALUES (20017, 'FL0016', '鞋子', NULL, '0');
+INSERT INTO `category` VALUES (20019, 'FL0017', '洗漱用品', 20000, '0');
+INSERT INTO `category` VALUES (20021, '0112', '用品', 20000, '0');
+INSERT INTO `category` VALUES (20023, 'dasf', 'asdfad', 20000, '0');
+INSERT INTO `category` VALUES (20024, 'dfa', 'sdf', 20000, '0');
+INSERT INTO `category` VALUES (20025, 'rety', 'ety', 20000, '0');
+INSERT INTO `category` VALUES (20026, 'afaasd', 'asdfasdfasdfasd', 20000, '0');
 
 -- ----------------------------
 -- Table structure for city
@@ -126,7 +135,7 @@ CREATE TABLE `city`  (
   UNIQUE INDEX `IN_name`(`bname` ASC) USING BTREE,
   INDEX `FK_city_province`(`prov_id` ASC) USING BTREE,
   CONSTRAINT `FK_city_province` FOREIGN KEY (`prov_id`) REFERENCES `province` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 80006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '地级市表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 80005 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '地级市表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of city
@@ -153,7 +162,7 @@ CREATE TABLE `company`  (
   UNIQUE INDEX `IN_name`(`cname` ASC) USING BTREE,
   INDEX `FK_company_region`(`region_id` ASC) USING BTREE,
   CONSTRAINT `FK_company_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 50003 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '供应商表（公司表）' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 50002 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '供应商表（公司表）' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of company
@@ -178,25 +187,26 @@ CREATE TABLE `customer`  (
   `cardID` char(18) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '客户身份证',
   `regTime` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '客户注册时间',
   `state` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT '1' COMMENT '客户账号状态：1激活  2锁定 ',
-  `level` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT '1' COMMENT '会员等级：1普通会员2钻石会员',
+  `level` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT '1' COMMENT '会员等级：1普通会员2钻石会员',
   `address_id` int NOT NULL DEFAULT 60001 COMMENT '客户地址ID',
+  `balance` decimal(10, 2) NULL DEFAULT 0.00 COMMENT '账户余额',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_username`(`username` ASC) USING BTREE,
   UNIQUE INDEX `unique_tel`(`tel` ASC) USING BTREE,
   UNIQUE INDEX `unique_email`(`email` ASC) USING BTREE,
   INDEX `FK_customer_region`(`address_id` ASC) USING BTREE,
   CONSTRAINT `FK_customer_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 40006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '消费者表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 40011 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '消费者表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of customer
 -- ----------------------------
-INSERT INTO `customer` VALUES (40000, 'admin', 'admin', 'admin', 'anno.jpg', '管理员的个人介绍', '15920558888', '235643@qq.com', '0', '23653657', '2021-10-21 09:03:40', '1', '1', 60000);
-INSERT INTO `customer` VALUES (40003, '陈生', 'chen', 'chen', 'anno.jpg', '陈老师的个人信息', '15920558666', 'chen@edu.cn', '1', '1111111', '2021-10-21 09:02:27', '0', '2', 60001);
-INSERT INTO `customer` VALUES (40005, NULL, 'hello', '123', 'anno.jpg', NULL, '13432793541', 'xu@qq.com', '1', '87623945892345', '123', '1', '1', 60001);
-INSERT INTO `customer` VALUES (40007, NULL, 'hello1', '123', 'anno.jpg', NULL, '1343275591', NULL, '1', NULL, '123', '1', '1', 60001);
-INSERT INTO `customer` VALUES (40009, NULL, 'hello12', '123', 'anno.jpg', NULL, '1343275599', NULL, '1', NULL, '2024-03-22 13:21:08', '1', '1', 60001);
-INSERT INTO `customer` VALUES (40010, NULL, 'hello13', '123', 'anno.jpg', NULL, '1343275529', NULL, '1', NULL, '2024-03-22 13:22:16', '1', '1', 60001);
+INSERT INTO `customer` VALUES (40000, 'admin', 'admin', 'admin', 'anno.jpg', 'tempor proident', '18646720432', 'v.tdkgcrhdr@qq.com', '0', '88', '2021-10-21 09:03:40', '1', '1', 60000, 63.00);
+INSERT INTO `customer` VALUES (40003, '陈生', 'chen', 'chen', 'anno.jpg', '陈老师的个人信息', '15920558666', 'chen@edu.cn', '1', '1111111', '2021-10-21 09:02:27', '0', '2', 60001, 0.00);
+INSERT INTO `customer` VALUES (40005, NULL, 'hello', '123', 'anno.jpg', NULL, '13432793541', 'xu@qq.com', '1', '87623945892345', '123', '1', '1', 60001, 0.00);
+INSERT INTO `customer` VALUES (40007, NULL, 'hello1', '123', 'anno.jpg', NULL, '1343275591', NULL, '1', NULL, '123', '1', '1', 60001, 0.00);
+INSERT INTO `customer` VALUES (40009, NULL, 'hello12', '123', 'anno.jpg', NULL, '1343275599', NULL, '1', NULL, '2024-03-22 13:21:08', '1', '1', 60001, 0.00);
+INSERT INTO `customer` VALUES (40010, NULL, 'hello13', '123', 'anno.jpg', NULL, '1343275529', NULL, '1', NULL, '2024-03-22 13:22:16', '1', '1', 60001, 0.00);
 
 -- ----------------------------
 -- Table structure for goods
@@ -443,7 +453,7 @@ CREATE TABLE `province`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `ename` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10012 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '省（直辖市）表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 10011 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '省（直辖市）表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of province
@@ -467,7 +477,7 @@ CREATE TABLE `region`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_region_city`(`city_id` ASC) USING BTREE,
   CONSTRAINT `FK_region_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 90007 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '辖区表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 90006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '辖区表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of region

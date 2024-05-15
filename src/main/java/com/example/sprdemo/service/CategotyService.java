@@ -8,13 +8,26 @@ import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategotyService {
 
   @Resource
   CategoryMapper categoryMapper;
+
+  public  Result ModifyById(Category category) {
+    try {
+      categoryMapper.updateById(category);
+      return Result.success();
+    }catch (Exception e){
+      e.printStackTrace();
+      return Result.error("403","请求失败请检查分类名或者分类代码是否已存在");
+    }
+
+  }
 
   public Result selectPage(Category category, int pageNum, int pagesize) {
     PageHelper.startPage(pageNum, pagesize);
@@ -36,8 +49,33 @@ public class CategotyService {
   public Result addCategory(Category category) {
     int flag  = categoryMapper.insert(category);
     if(flag == 0) {
-      return Result.error("403","添加失败");
+      return Result.error("403","记录已经存在，添加失败");
     }
     return Result.success();
+  }
+
+
+  public Result checkCodeRepeated(String code) {
+    final String CHECK_KEY = "codeIsRepeated";
+    Category category = categoryMapper.selectByCode(code);
+    Map<String,Boolean> map = new HashMap<>();
+    if(category == null){
+      map.put(CHECK_KEY,false);
+    }else {
+      map.put(CHECK_KEY,true);
+    }
+    return Result.success(map);
+  }
+
+  public Result checkNameRepeated(String name) {
+    final String CHECK_KEY = "nameIsRepeated";
+    Category category = categoryMapper.selectByName(name);
+    Map<String,Boolean> map = new HashMap<>();
+    if(category == null){
+      map.put(CHECK_KEY,false);
+    }else {
+      map.put(CHECK_KEY,true);
+    }
+    return Result.success(map);
   }
 }

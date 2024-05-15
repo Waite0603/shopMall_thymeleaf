@@ -205,4 +205,9 @@
         </set>
         where id = #{id}
     </update>
+    <update id="updateBalance">
+        update customer
+        set balance = #{money}
+        where id = #{id}
+    </update>
 </mapper>

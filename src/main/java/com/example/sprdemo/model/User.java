@@ -3,6 +3,7 @@ package com.example.sprdemo.model;
 import lombok.Data;
 
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Data
 @Table(name = "customer")
@@ -22,4 +23,5 @@ public class User {
   private String level ;
   private int addressId;
   private String Authorization;
+  private BigDecimal balance;
 }

@@ -8,4 +8,11 @@ public interface CategoryMapper {
   List<Category> selectAll(Category category);
 
   int insert(Category category);
+
+
+  void updateById(Category category);
+
+  Category selectByCode(String code);
+
+  Category selectByName(String name);
 }

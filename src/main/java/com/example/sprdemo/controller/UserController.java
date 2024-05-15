@@ -6,10 +6,9 @@ import com.example.sprdemo.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,6 +42,12 @@ public class UserController {
   @PostMapping("/update")
   public ResponseEntity<Result> update(@RequestBody User user){
     Result result = userService.update(user);
+    return ResponseEntity.ok(result);
+  }
+
+  @PostMapping("/recharge")
+  public ResponseEntity<Result> recharge(@RequestParam BigDecimal money ){
+    Result result = userService.recharge(money);
     return ResponseEntity.ok(result);
   }
 

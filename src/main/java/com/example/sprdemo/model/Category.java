@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class Category {
 
-  private int id;
+  private Integer id;
   private String code;
   private String aname;
-  private int pid;
+  private Integer pid;
   private String isShow;
 
 }

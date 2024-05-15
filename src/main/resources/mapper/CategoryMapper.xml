@@ -9,6 +9,24 @@
         insert into category (aname, code, pid, isShow)
         values (#{aname}, #{code}, #{pid}, #{isShow})
     </insert>
+    <update id="updateById">
+        update category
+        <set>
+            <if test="aname != null">
+                aname = #{aname},
+            </if>
+            <if test="isShow != null">
+                isShow = #{isShow},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="selectAll" resultType="com.example.sprdemo.model.Category">
         select *
@@ -31,7 +49,12 @@
             </if>
         </where>
     </select>
-
+    <select id="selectByCode" resultType="com.example.sprdemo.model.Category">
+        select * from category where code = #{code}
+    </select>
+    <select id="selectByName" resultType="com.example.sprdemo.model.Category">
+        select * from category where aname = #{name}
+    </select>
 
 
 </mapper>

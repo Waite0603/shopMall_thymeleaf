@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -128,4 +129,14 @@ public class UserService {
     }
   }
 
+  /**
+   * 充值
+   *
+   * @param money
+   * @return
+   */
+  public Result recharge(BigDecimal money) {
+    int i = userMapper.updateBalance(TokenUtils.getCurrentUser().getId(), money.add(TokenUtils.getCurrentUser().getBalance()));
+    return Result.success();
+  }
 }
