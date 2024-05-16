@@ -18,7 +18,7 @@
 
       <div class="type-control d-flex justify-content-between bg-light px-4 py-2 rounded">
         <div class="type-add">
-          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBox">新增</button>
+          <button class="btn btn-danger" onclick="addTypeItem()">新增</button>
           <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBox">添加</button> -->
         </div>
         <div class="type-search d-flex">
@@ -37,14 +37,16 @@
           <th scope="col">类型名称</th>
           <th scope="col">所属分类</th>
           <th scope="col">0否显示</th>
+          <th scope="col">操作</th>
         </tr>
-        </thead><tbody>
+        </thead>
+        <tbody>
         </tbody>
       </table>
 
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-        <span id="pagination-item" class="d-flex"></span>
+          <span id="pagination-item" class="d-flex"></span>
         </ul>
       </nav>
 
@@ -110,10 +112,14 @@
 <th:block th:replace="~{modules/common.html :: common_js}"></th:block>
 <script>
   // basic pagination
+  let addOrEdit = "add"
+  let editId = 0
   let pageNum = 1
   let pageSize = 10
   let currentPage = 1
   let pageTotal = 0
+
+  let manageTypeData = []
 
   const renderType = (data) => {
     const tbody = $("tbody")
@@ -125,8 +131,46 @@
       tr.append($(`<td>${item.aname}</td>`))
       tr.append($(`<td>${item.pid}</td>`))
       tr.append($(`<td>${item.isShow === "0" ? "否" : "是"}</td>`))
+      tr.append($(`<td>
+        <a href="#" onclick="updateTypeItem(${item.id})">编辑</a>
+      </td>`))
       tbody.append(tr)
     })
+  }
+
+  // 添加商品分类
+  const addTypeItem = () => {
+    addOrEdit = "add"
+
+    // modal-title
+    $(".modal-title").text("请填写添加类别")
+
+    // 打开模态框
+    let modalBox = $("#modalBox")
+    let modalJS = new bootstrap.Modal(modalBox)
+    modalJS.show()
+  }
+
+  // 更新商品分类
+  const updateTypeItem = (item) => {
+    addOrEdit = "edit"
+    editId = item
+
+    // modal-title
+    $(".modal-title").text("请填写编辑类别")
+
+    let currentItem = manageTypeData.find(i => i.id === item)
+    console.log(currentItem)
+
+    // 打开模态框
+    let modalBox = $("#modalBox")
+    let modalJS = new bootstrap.Modal(modalBox)
+    modalJS.show()
+
+    // 填充数据
+    $("#code").val(currentItem.code)
+    $("#name").val(currentItem.aname)
+    $("#isShow").val(currentItem.isShow)
   }
 
   const renderPagination = (pageTotal, pageSize, currentPage) => {
@@ -190,14 +234,15 @@
       },
       success: function (res) {
         if (res.code === "200") {
-          console.log(res)
+          manageTypeData = res.data.list
+
           renderType(res.data.list)
 
           // 分页
           pageTotal = res.data.pages
 
           renderPagination(pageTotal, pageSize, currentPage)
-       }
+        }
       }
     })
   }
@@ -217,33 +262,186 @@
     const name = $("#name").val()
     const isShow = $("#isShow").val()
 
-    $.ajax({
-      url: "/api/category/addCategory",
-      type: "POST",
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      },
-      data: JSON.stringify({
-        "code": code,
-        "aname": name,
-        "pid": "20000",
-        "isShow": isShow
-      }),
-      contentType: "application/json",
-      success: function (res) {
-        if (res.code === "200") {
-          swal("添加成功", "添加成功", "success")
-          // 关闭模态框
-          $("#modalBox").modal("hide")
-          getTypeData(pageTotal, pageSize)
-        } else {
-          swal("添加失败", res.msg, "error")
+    if (addOrEdit === "add") {
+      addType(code, name, isShow)
+    } else {
+      editType(code, name, isShow)
+    }
+  }
+
+  // 检查编号是否重复
+  const checkCodeRepeated = (code) => {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: "/api/category/checkCodeRepeated",
+        type: "GET",
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        },
+        data: {
+          code
+        },
+        success: function (res) {
+          if (res.code === "200") {
+            if (res.data.codeIsRepeated) {
+              reject(new Error("内部编号重复"))
+            } else {
+              resolve(res) // 如果没有重复，继续执行
+            }
+          } else {
+            reject(new Error("服务器返回错误"))
+          }
+        },
+        error: function () {
+          reject(new Error("网络请求失败"))
         }
-      },
-      error: function () {
-        swal("添加失败", "添加失败, 内部编号不能重复", "error")
-      }
+      })
     })
+  }
+
+  // 检查名称是否重复 /api/category/checkNameRepeated
+  const checkNameRepeated = (name) => {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: "/api/category/checkNameRepeated",
+        type: "GET",
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        },
+        data: {
+          name
+        },
+        success: function (res) {
+          if (res.code === "200") {
+            if (res.data.nameIsRepeated) {
+              reject(new Error("类型名称重复"))
+            } else {
+              resolve(res) // 如果没有重复，继续执行
+            }
+          } else {
+            reject(new Error("服务器返回错误"))
+          }
+        },
+        error: function () {
+          reject(new Error("网络请求失败"))
+        }
+      })
+    })
+  }
+
+  // 添加商品分类
+  const addType = async (code, name, isShow) => {
+    if (!code || !name || !isShow) {
+      swal("添加失败", "请填写完整信息", "error")
+      return
+    }
+
+    if (isShow !== "0" && isShow !== "1") {
+      swal("添加失败", "是否显示只能输入0或1", "error")
+      return
+    }
+
+    try {
+      // 查看是否有重复的code
+      await checkCodeRepeated(code)
+
+      // 查看是否有重复的name
+      await checkNameRepeated(name)
+
+      $.ajax({
+        url: "/api/category/addCategory",
+        type: "POST",
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        },
+        data: JSON.stringify({
+          "code": code,
+          "aname": name,
+          "pid": "20000",
+          "isShow": isShow
+        }),
+        contentType: "application/json",
+        success: function (res) {
+          if (res.code === "200") {
+            swal("添加成功", "添加成功", "success")
+            // 关闭模态框
+            $("#modalBox").modal("hide")
+            getTypeData(pageTotal, pageSize)
+          } else {
+            swal("添加失败", res.msg, "error")
+          }
+        },
+        error: function () {
+          swal("添加失败", "添加失败, 内部编号不能重复", "error")
+        }
+      })
+    } catch (err) {
+      // 捕获并处理错误
+      swal("添加失败", err.message, "error")
+    }
+  }
+
+  // 编辑商品分类
+  const editType = async (code, name, isShow) => {
+    if (!code || !name || !isShow) {
+      swal("编辑失败", "请填写完整信息", "error")
+      return
+    }
+
+    if (isShow !== "0" && isShow !== "1") {
+      swal("编辑失败", "是否显示只能输入0或1", "error")
+      return
+    }
+
+    // 深拷贝
+    const currentItem = JSON.parse(JSON.stringify(manageTypeData.find(i => i.id === editId)))
+
+    console.log(currentItem)
+
+
+    try {
+      if (currentItem.code !== code) {
+        // 查看是否有重复的code
+        await checkCodeRepeated(code)
+      }
+
+      if (currentItem.aname !== name) {
+        // 查看是否有重复的name
+        await checkNameRepeated(name)
+      }
+
+      $.ajax({
+        url: "/api/category/updateCategory",
+        type: "POST",
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        },
+        data: JSON.stringify({
+          "id": editId,
+          "code": code,
+          "aname": name,
+          "pid": "20000",
+          "isShow": isShow
+        }),
+        contentType: "application/json",
+        success: function (res) {
+          if (res.code === "200") {
+            swal("编辑成功", "编辑成功", "success")
+            // 关闭模态框
+            $("#modalBox").modal("hide")
+            getTypeData(pageTotal, pageSize)
+          } else {
+            swal("编辑失败", res.msg, "error")
+          }
+        },
+        error: function () {
+          swal("编辑失败", "编辑失败", "error")
+        }
+      })
+    } catch (err) {
+      // 捕获并处理错误
+      swal("编辑失败", err.message, "error")
+    }
   }
 
   $("#modalBox").on("hidden.bs.modal", function () {
