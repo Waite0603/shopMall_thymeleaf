@@ -9,6 +9,8 @@ public class TolenManager {
 
   public static String encode(String str) {
 
+
+
     return Jwts.builder().setHeaderParam("alg", "HS256").setHeaderParam("typ", "JWT").setSubject(str)
         .setIssuer("admin")
         .setExpiration(new Date(System.currentTimeMillis() + 60000))
