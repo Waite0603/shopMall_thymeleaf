@@ -15,6 +15,9 @@ public class TolenManager {
         .claim("name", "admin")
         .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, "admin").compact()
         ;
+
+
+
   }
 
 //  public static String decode(String token) {
