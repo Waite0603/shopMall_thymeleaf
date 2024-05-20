@@ -18,6 +18,11 @@
         <result column="product_id" property="productId"/>
     </resultMap>
 
+    <insert id="insertGoods">
+        INSERT INTO goods (keywords, code, spec, ch_spec, in_price, out_price, stock, imgUrl, product_id)
+        VALUES (#{keywords}, #{code}, #{spec}, #{chSpec}, #{inPrice}, #{outPrice}, #{stock}, #{imgUrl}, #{productId})
+    </insert>
+
     <select id="selectAllGoods" resultMap="goodsResultMap">
         SELECT * FROM goods
         <where>

@@ -9,4 +9,6 @@ public interface GoodsMapper {
   List<Goods> selectAllGoods(Goods goods);
 
   List<GoodsDao> selectByOrdersId(Integer orderId);
+
+  void insertGoods(Goods goods);
 }

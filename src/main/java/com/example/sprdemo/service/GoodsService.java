@@ -33,4 +33,10 @@ public class GoodsService {
     List<Goods> g = goodsMapper.selectAllGoods(goods);
     return Result.success(g.get(0));
   }
+
+  public Result addGoods(Goods goods) {
+    goodsMapper.insertGoods(goods);
+
+    return Result.success();
+  }
 }

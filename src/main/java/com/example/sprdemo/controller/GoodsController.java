@@ -28,4 +28,14 @@ public class GoodsController {
     return ResponseEntity.ok(result);
   }
 
+  /**
+   * 添加商品
+   * @param goods 商品信息
+   * @return 添加结果
+   */
+  @PostMapping("/addGoods")
+  public ResponseEntity<Result> addGoods(@RequestBody Goods goods) {
+    Result result = goodsService.addGoods(goods);
+    return ResponseEntity.ok(result);
+  }
 }
