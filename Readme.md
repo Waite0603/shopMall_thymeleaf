@@ -11,3 +11,5 @@
 
 1. 复制 `src/main/resources/example.properties` 为 `application.properties` 并且修改其中的配置
 2. 运行 `src/main/java/com/example/sprdemo/sprDemoApplication.java`
+3. sql 文件位置 https://github.com/Waite0603/shopMall_thymeleaf/blob/master/src/main/resources/shop_mall.sql
+4. api文档: https://apifox.com/apidoc/shared-772736d9-58b4-44cb-9df1-d2bdf41c0ee9
