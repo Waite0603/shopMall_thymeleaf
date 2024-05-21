@@ -22,6 +22,42 @@
         INSERT INTO goods (keywords, code, spec, ch_spec, in_price, out_price, stock, imgUrl, product_id)
         VALUES (#{keywords}, #{code}, #{spec}, #{chSpec}, #{inPrice}, #{outPrice}, #{stock}, #{imgUrl}, #{productId})
     </insert>
+    <update id="updateById" >
+        update goods
+        <set>
+            <if test="keywords != null and keywords != ''">
+                keywords = #{keywords},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="spec != null and spec != ''">
+                spec = #{spec},
+            </if>
+            <if test="chSpec != null and chSpec != ''">
+                ch_spec = #{chSpec},
+            </if>
+            <if test="inPrice != null and inPrice != ''">
+                in_price = #{inPrice},
+            </if>
+            <if test="outPrice != null and outPrice != ''">
+                out_price = #{outPrice},
+            </if>
+            <if test="stock != null and stock != ''">
+                stock = #{stock},
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                imgUrl = #{imgUrl},
+            </if>
+            <if test="productId != null and productId != ''">
+                product_id = #{productId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteGoodsById">
+        delete from goods where id = #{id}
+    </delete>
 
     <select id="selectAllGoods" resultMap="goodsResultMap">
         SELECT * FROM goods
@@ -67,6 +103,17 @@
         join product p
             on g.product_id = p.id
         where o.orders_id = #{ordersId}
+    </select>
+    <select id="selectOrdersByGoodsId" resultType="com.example.sprdemo.model.Orders">
+        select orders.* from orders
+        join orderitem
+        on orders.id = orderitem.orders_id
+        join goods
+        on goods.id = orderitem.goods_id
+        where goods.id = #{goodsId}
+    </select>
+    <select id="selectGoodsByCode" resultType="com.example.sprdemo.model.Goods">
+        select * from goods where code = #{code}
     </select>
 
 </mapper>

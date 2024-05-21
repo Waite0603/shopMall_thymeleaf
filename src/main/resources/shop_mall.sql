@@ -11,7 +11,7 @@
  Target Server Version : 80100
  File Encoding         : 65001
 
- Date: 16/05/2024 01:20:46
+ Date: 21/05/2024 15:01:41
 */
 
 SET NAMES utf8mb4;
@@ -65,7 +65,7 @@ CREATE TABLE `brand`  (
   UNIQUE INDEX `IN_en_name`(`en_name` ASC) USING BTREE,
   INDEX `FK_brand_category`(`category_id` ASC) USING BTREE,
   CONSTRAINT `FK_brand_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 99010 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '品牌表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 99009 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '品牌表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of brand
@@ -94,8 +94,8 @@ CREATE TABLE `category`  (
   UNIQUE INDEX `IN_code`(`code` ASC) USING BTREE,
   UNIQUE INDEX `IN_name`(`aname` ASC) USING BTREE,
   INDEX `FK_cate_cate`(`pid` ASC) USING BTREE,
-  CONSTRAINT `FK_cate_cate` FOREIGN KEY (`pid`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 20028 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品分类表' ROW_FORMAT = COMPACT;
+  CONSTRAINT `FK_cate_cate` FOREIGN KEY (`pid`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 20026 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品分类表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of category
@@ -201,12 +201,13 @@ CREATE TABLE `customer`  (
 -- ----------------------------
 -- Records of customer
 -- ----------------------------
-INSERT INTO `customer` VALUES (40000, 'admin', 'admin', 'admin', 'anno.jpg', 'tempor proident', '18646720432', 'v.tdkgcrhdr@qq.com', '0', '88', '2021-10-21 09:03:40', '1', '1', 60000, 63.00);
+INSERT INTO `customer` VALUES (40000, 'admin', 'admin', 'admin', 'anno.jpg', 'hello', '13536460911', '0930392@qq.com', '0', '441581200011092100', '2021-10-21 09:03:40', '1', '1', 60000, 63.00);
 INSERT INTO `customer` VALUES (40003, '陈生', 'chen', 'chen', 'anno.jpg', '陈老师的个人信息', '15920558666', 'chen@edu.cn', '1', '1111111', '2021-10-21 09:02:27', '0', '2', 60001, 0.00);
 INSERT INTO `customer` VALUES (40005, NULL, 'hello', '123', 'anno.jpg', NULL, '13432793541', 'xu@qq.com', '1', '87623945892345', '123', '1', '1', 60001, 0.00);
 INSERT INTO `customer` VALUES (40007, NULL, 'hello1', '123', 'anno.jpg', NULL, '1343275591', NULL, '1', NULL, '123', '1', '1', 60001, 0.00);
 INSERT INTO `customer` VALUES (40009, NULL, 'hello12', '123', 'anno.jpg', NULL, '1343275599', NULL, '1', NULL, '2024-03-22 13:21:08', '1', '1', 60001, 0.00);
 INSERT INTO `customer` VALUES (40010, NULL, 'hello13', '123', 'anno.jpg', NULL, '1343275529', NULL, '1', NULL, '2024-03-22 13:22:16', '1', '1', 60001, 0.00);
+INSERT INTO `customer` VALUES (40011, NULL, 'admin321', '123', 'anno.jpg', NULL, '13536460991', NULL, '1', NULL, '2024-05-21 10:41:47', '1', '1', 60001, 0.00);
 
 -- ----------------------------
 -- Table structure for goods
@@ -239,6 +240,7 @@ INSERT INTO `goods` VALUES (90006, '昙花一现好看各种主题可定制', 's
 INSERT INTO `goods` VALUES (90007, '五花装饰多种各种主题可定制', 'sp0005', '{20006:1057,20008:1040}', '{品种:组合,主题:财源广进}', 4.00, 26.00, 44, 'xh_img5.jpg', 50001);
 INSERT INTO `goods` VALUES (90008, '锦上添花红色玫瑰直接发货哦', 'sp0006', '{20006:1018,20000:1002,20010:1055}', '{品种:玫瑰,颜色:金色,单位:束(10支装)}', 11.00, 58.00, 23, 'xh_img6.jpg', 50001);
 INSERT INTO `goods` VALUES (90009, '百花齐放多种组合主题可定制', 'sp0007', '{20006:1057,20008:1059}', '{品种:组合,主题:花开富贵}', 21.00, 188.00, 3, 'xh_img2.jpg', 50001);
+INSERT INTO `goods` VALUES (90010, 'laboris Lorem consectetur cillum magna', '32', 'laborum', 'cillum', 46.00, 38.00, 37, 'http://dummyimage.com/400x400', 50001);
 
 -- ----------------------------
 -- Table structure for goods_propitem
@@ -337,7 +339,7 @@ CREATE TABLE `product`  (
   INDEX `FK_product_brand`(`brand_id` ASC) USING BTREE,
   CONSTRAINT `FK_product_brand` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `FK_product_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 50002 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品表SPU' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 50001 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '产品表SPU' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of product
@@ -356,7 +358,7 @@ CREATE TABLE `property`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_property_category`(`category_id` ASC) USING BTREE,
   CONSTRAINT `FK_property_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 20011 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '属性表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 20010 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '属性表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of property
@@ -384,7 +386,7 @@ CREATE TABLE `propertyitem`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_pi_prop`(`property_id` ASC) USING BTREE,
   CONSTRAINT `FK_pi_prop` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1060 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '属性详情表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 1059 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '属性详情表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of propertyitem

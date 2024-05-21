@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Goods {
-  private int id;
+  private Integer id;
   private String keywords;
   private String code;
   private String spec;

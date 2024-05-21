@@ -27,7 +27,9 @@ public class UserController {
 
   @RequestMapping("/logout")
   public ResponseEntity<Result> logout(HttpServletRequest request) {
-    request.getSession().removeAttribute("user");
+    //移除Header中的Authorization属性
+    request.removeAttribute("Authorization");
+    request.getHeader("Authorization");
     return ResponseEntity.ok(Result.success("退出成功"));
   }
 
